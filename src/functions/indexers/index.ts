@@ -7,3 +7,4 @@
  **************************************************************************/
 
 export * from './restart-indexers';
+export * from './get-all-indexers';
