@@ -7,8 +7,7 @@
  **************************************************************************/
 
 import { IndexerWell, toIndexerWell } from '~/models';
-import { buildHTTPRequestWithAuthFromContext, buildURL, parseJSONResponse, fetch } from '../utils';
-import { APIContext } from '../utils/api-context';
+import { buildHTTPRequestWithAuthFromContext, buildURL, parseJSONResponse, fetch, APIContext } from '../utils';
 
 export const makeGetAllIndexers = (context: APIContext) => {
 	const templatePath = '/api/indexer/info';
