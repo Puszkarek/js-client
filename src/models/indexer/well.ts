@@ -6,7 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { Shard } from './shard';
+import { isString, isUndefined } from 'lodash';
+import { isShard, Shard } from './shard';
 
 export type Well = {
 	Name: string;
@@ -15,4 +16,21 @@ export type Well = {
 	Path: string;
 	Tags: Array<string>;
 	Shards: Array<Shard>;
+};
+
+export const isWell = (value: any): value is Well => {
+	try {
+		const w = <Well>value;
+
+		return (
+			isString(w.Name) &&
+			(isUndefined(w.Accelerator) || isString(w.Accelerator)) &&
+			(isUndefined(w.Engine) || isString(w.Engine)) &&
+			isString(w.Path) &&
+			w.Tags.every(isString) &&
+			w.Shards.every(isShard)
+		);
+	} catch {
+		return false;
+	}
 };

@@ -6,7 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { Shard } from './shard';
+import { isString, isUndefined } from 'lodash';
+import { isShard, Shard } from './shard';
 
 export interface ReplicatedState {
 	Name: string;
@@ -15,3 +16,19 @@ export interface ReplicatedState {
 	Tags: Array<string>;
 	Shards: Array<Shard>;
 }
+
+export const isReplicatedState = (value: any): value is ReplicatedState => {
+	try {
+		const r = <ReplicatedState>value;
+
+		return (
+			isString(r.Name) &&
+			(isUndefined(r.Accelerator) || isString(r.Accelerator)) &&
+			(isUndefined(r.Engine) || isString(r.Engine)) &&
+			r.Tags.every(isString) &&
+			r.Shards.every(isShard)
+		);
+	} catch {
+		return false;
+	}
+};

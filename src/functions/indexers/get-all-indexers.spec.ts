@@ -10,7 +10,7 @@ import { isIndexerWell } from '~/models';
 import { integrationTest, TEST_BASE_API_CONTEXT } from '~/tests';
 import { makeGetAllIndexers } from '.';
 
-describe('getAllIndexers()', () => {
+fdescribe('getAllIndexers()', () => {
 	const getAllIndexers = makeGetAllIndexers(TEST_BASE_API_CONTEXT);
 
 	it(
