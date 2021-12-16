@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { boolean, number, object, optional, string, iso8601 } from 'decoders';
+import { boolean, iso8601,number, object, optional, string } from 'decoders';
 
 export const shardDecoder = object({
 	Name: string,
