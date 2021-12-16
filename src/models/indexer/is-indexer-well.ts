@@ -12,7 +12,7 @@ import { IndexerWell } from './indexer-well';
 
 export const isIndexerWell = (value: any): value is IndexerWell => {
 	try {
-		const i: IndexerWell = value;
+		const i = <IndexerWell>value;
 
 		return isUUID(i.UUID) && isString(i.Name) && isArray(i.Wells) && isObject(i.Replicated);
 	} catch {
