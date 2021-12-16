@@ -18,7 +18,7 @@ export type Well = {
 	Shards: Array<Shard>;
 };
 
-export const isWell = (value: any): value is Well => {
+export const isWell = (value: unknown): value is Well => {
 	try {
 		const w = <Well>value;
 

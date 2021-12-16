@@ -19,7 +19,7 @@ export type IndexerWell = {
 	Replicated?: Record<string, Array<ReplicatedState>>;
 };
 
-export const isIndexerWell = (value: any): value is IndexerWell => {
+export const isIndexerWell = (value: unknown): value is IndexerWell => {
 	try {
 		const i = <IndexerWell>value;
 

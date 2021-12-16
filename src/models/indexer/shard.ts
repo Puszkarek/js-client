@@ -22,7 +22,7 @@ export type Shard = {
 	};
 };
 
-export const isShard = (value: any): value is Shard => {
+export const isShard = (value: unknown): value is Shard => {
 	try {
 		const s = <Shard>value;
 

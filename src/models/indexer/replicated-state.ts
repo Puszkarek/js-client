@@ -17,7 +17,7 @@ export interface ReplicatedState {
 	Shards: Array<Shard>;
 }
 
-export const isReplicatedState = (value: any): value is ReplicatedState => {
+export const isReplicatedState = (value: unknown): value is ReplicatedState => {
 	try {
 		const r = <ReplicatedState>value;
 
