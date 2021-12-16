@@ -1,5 +1,6 @@
 export * from './indexer-well-decoder';
 export * from './indexer-well';
+export * from './is-indexer-well';
 export * from './replicated-state';
 export * from './response-guard';
 export * from './shard-decoder';
