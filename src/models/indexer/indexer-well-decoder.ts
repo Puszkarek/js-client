@@ -7,7 +7,6 @@
  **************************************************************************/
 
 import { array, dict, object, optional, string } from 'decoders';
-
 import { shardDecoder } from './shard-decoder';
 
 export const indexerWellDecoder = dict(

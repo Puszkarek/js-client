@@ -7,7 +7,6 @@
  **************************************************************************/
 
 import { IndexerWell, toIndexerWell } from '~/models';
-
 import { APIContext, buildHTTPRequestWithAuthFromContext, buildURL, fetch, parseJSONResponse } from '../utils';
 
 export const makeGetAllIndexers = (context: APIContext) => {
