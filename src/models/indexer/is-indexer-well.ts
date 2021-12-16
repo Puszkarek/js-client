@@ -11,7 +11,6 @@ import { isUUID } from '~/value-objects';
 import { IndexerWell } from './indexer-well';
 
 export const isIndexerWell = (value: any): value is IndexerWell => {
-	console.log('try check');
 	try {
 		const i: IndexerWell = value;
 
