@@ -7,7 +7,9 @@
  **************************************************************************/
 
 import { isArray, isObject, isString } from 'lodash';
+
 import { isUUID } from '~/value-objects';
+
 import { IndexerWell } from './indexer-well';
 
 export const isIndexerWell = (value: any): value is IndexerWell => {

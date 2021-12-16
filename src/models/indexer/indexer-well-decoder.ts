@@ -6,8 +6,9 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { shardDecoder } from './shard-decoder';
 import { array, dict, object, optional, string } from 'decoders';
+
+import { shardDecoder } from './shard-decoder';
 
 export const indexerWellDecoder = dict(
 	object({

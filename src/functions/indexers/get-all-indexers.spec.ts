@@ -8,6 +8,7 @@
 
 import { isIndexerWell } from '~/models';
 import { integrationTest, TEST_BASE_API_CONTEXT } from '~/tests';
+
 import { makeGetAllIndexers } from '.';
 
 describe('getAllIndexers()', () => {

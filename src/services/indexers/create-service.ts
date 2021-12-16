@@ -6,8 +6,9 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { makeRestartIndexers, makeGetAllIndexers } from '~/functions';
+import { makeGetAllIndexers, makeRestartIndexers } from '~/functions';
 import { APIContext } from '~/functions/utils';
+
 import { IndexersService } from './service';
 
 export const createIndexersService = (context: APIContext): IndexersService => ({
