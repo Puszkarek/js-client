@@ -6,13 +6,13 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-export * from './indexer-well';
-export * from './raw-indexer-well';
-export * from './raw-replicated-state';
-export * from './raw-shard';
-export * from './raw-well';
-export * from './replicated-state';
-export * from './response-guard';
-export * from './shard';
-export * from './to-indexer-well';
-export * from './well';
+import { RawShard } from './raw-shard';
+
+export type RawWell = {
+	Name: string;
+	Accelerator?: string;
+	Engine?: string;
+	Path: string;
+	Tags: Array<string>;
+	Shards: Array<RawShard>;
+};

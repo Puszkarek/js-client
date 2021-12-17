@@ -8,13 +8,13 @@
 
 import { isIndexerWell } from '~/models';
 import { integrationTest, TEST_BASE_API_CONTEXT } from '~/tests';
-import { makeGetAllIndexers } from '.';
+import { makeGetAllIndexers } from './get-all-indexers';
 
 describe('getAllIndexers()', () => {
 	const getAllIndexers = makeGetAllIndexers(TEST_BASE_API_CONTEXT);
 
 	it(
-		'Should return all IndexersWells',
+		'Should return all IndexerWells',
 		integrationTest(async () => {
 			const indexers = await getAllIndexers();
 

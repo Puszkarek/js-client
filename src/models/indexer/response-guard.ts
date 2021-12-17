@@ -8,7 +8,7 @@
 
 import { array, boolean, dict, guard, iso8601, number, object, optional, string } from 'decoders';
 
-const shardDecoder = object({
+const rawShardDecoder = object({
 	Name: string,
 	Start: iso8601,
 	End: iso8601,
@@ -24,7 +24,7 @@ const shardDecoder = object({
 	),
 });
 
-const indexerWellDecoder = dict(
+const rawIndexerWellDecoder = dict(
 	object({
 		UUID: string,
 		Wells: array(
@@ -34,7 +34,7 @@ const indexerWellDecoder = dict(
 				Engine: optional(string),
 				Path: string,
 				Tags: array(string),
-				Shards: array(shardDecoder),
+				Shards: array(rawShardDecoder),
 			}),
 		),
 		Replicated: dict(
@@ -44,11 +44,11 @@ const indexerWellDecoder = dict(
 					Accelerator: optional(string),
 					Engine: optional(string),
 					Tags: array(string),
-					Shards: array(shardDecoder),
+					Shards: array(rawShardDecoder),
 				}),
 			),
 		),
 	}),
 );
 
-export const responseGuard = guard(indexerWellDecoder);
+export const responseGuard = guard(rawIndexerWellDecoder);

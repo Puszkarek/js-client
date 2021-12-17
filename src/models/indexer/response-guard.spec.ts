@@ -6,10 +6,10 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { responseGuard } from '.';
+import { responseGuard } from './response-guard';
 
-fdescribe('responseGuard()', () => {
-	describe('Should work', () => {
+describe('responseGuard()', () => {
+	describe('Should WORK', () => {
 		it('Should RETURN the correct data if is EMPTY', () => {
 			const { validEmpty } = validMockData();
 
