@@ -17,6 +17,7 @@ describe('getAllIndexers()', () => {
 		'Should return all IndexersWells',
 		integrationTest(async () => {
 			const indexers = await getAllIndexers();
+
 			expect(indexers.every(isIndexerWell)).toBeTrue();
 		}),
 	);
