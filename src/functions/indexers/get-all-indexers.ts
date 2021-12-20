@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { IndexerWell, RawIndexerWell, toIndexerWell } from '~/models';
+import { IndexerWell, RawIndexerWellResponse, toIndexerWell } from '~/models';
 import { APIContext, buildHTTPRequestWithAuthFromContext, buildURL, fetch, parseJSONResponse } from '../utils';
 
 export const makeGetAllIndexers = (context: APIContext) => {
@@ -17,7 +17,7 @@ export const makeGetAllIndexers = (context: APIContext) => {
 		const req = buildHTTPRequestWithAuthFromContext(context);
 
 		const raw = await fetch(url, { ...req, method: 'GET' });
-		const rawRes = (await parseJSONResponse<RawIndexerWell>(raw)) ?? [];
+		const rawRes = (await parseJSONResponse<RawIndexerWellResponse>(raw)) ?? [];
 
 		return toIndexerWell(rawRes);
 	};

@@ -16,7 +16,7 @@ export type RawIndexerWellDecoded = {
 	Replicated?: Record<string, Array<RawReplicatedStateDecoded>>;
 };
 
-const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
+export const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
 	object({
 		UUID: string,
 		Wells: rawWellDecoder,

@@ -15,13 +15,13 @@ export type Shard = {
 	entries: number;
 	size: number;
 	cold: boolean;
-	remoteState?: {
-		UUID: string | undefined;
-		entries: number | undefined;
-		size: number | undefined;
-	};
+	remoteState?: RemoteState | undefined;
 };
-
+export type RemoteState = {
+	uuid: string;
+	entries: number;
+	size: number;
+};
 export const isShard = (value: unknown): value is Shard => {
 	try {
 		const s = <Shard>value;

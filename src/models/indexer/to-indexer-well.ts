@@ -56,17 +56,21 @@ const toReplicated = (
 
 const toShard = (shards: Array<RawShardDecoded>): Array<Shard> =>
 	shards.map(data => {
-		return {
+		const _shardPartial = {
 			name: data.Name,
 			start: data.Start,
 			end: data.End,
 			entries: data.Entries,
 			size: data.Size,
 			cold: data.Cold,
-			remoteState: {
-				UUID: data.RemoteState?.UUID,
-				entries: data.RemoteState?.Entries,
-				size: data.RemoteState?.Size,
-			},
+		};
+		const _remoteState = data.RemoteState && {
+			uuid: data.RemoteState.UUID,
+			entries: data.RemoteState.Entries,
+			size: data.RemoteState.Size,
+		};
+		return {
+			..._shardPartial,
+			remoteState: _remoteState,
 		};
 	});
