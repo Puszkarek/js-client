@@ -6,15 +6,15 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { rawIndexerWellGuard, RawIndexerWellDecoded } from './raw-indexer-well-decoder';
-import { RawIndexerWellResponse, RawIndexerWell } from './raw-indexer-well';
-import { RawWellDecoded } from './raw-well-decoder';
-import { RawWell } from './raw-well';
 import { UUID } from '../../value-objects/id';
+import { RawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
+import { RawIndexerWellDecoded, rawIndexerWellGuard } from './raw-indexer-well-decoder';
 import { RawReplicatedState } from './raw-replicated-state';
 import { RawReplicatedStateDecoded } from './raw-replicated-state-decoder';
 import { RawShard } from './raw-shard';
 import { RawShardDecoded } from './raw-shard-decoder';
+import { RawWell } from './raw-well';
+import { RawWellDecoded } from './raw-well-decoder';
 
 describe('responseGuard()', () => {
 	describe('Should WORK', () => {
