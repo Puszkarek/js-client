@@ -14,7 +14,7 @@ import { isWell, Well } from './well';
 /** An indexer's well. */
 export type IndexerWell = {
 	name: string;
-	UUID: string;
+	uuid: string;
 	wells: Array<Well>;
 	replicated?: Record<string, Array<ReplicatedState>>;
 };
@@ -24,7 +24,7 @@ export const isIndexerWell = (value: unknown): value is IndexerWell => {
 		const i = <IndexerWell>value;
 
 		return (
-			isUUID(i.UUID) &&
+			isUUID(i.uuid) &&
 			isString(i.name) &&
 			i.wells.every(isWell) &&
 			(isUndefined(i.replicated) ||
