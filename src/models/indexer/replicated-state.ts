@@ -10,11 +10,11 @@ import { isString, isUndefined } from 'lodash';
 import { isShard, Shard } from './shard';
 
 export interface ReplicatedState {
-	Name: string;
-	Accelerator?: string;
-	Engine?: string;
-	Tags: Array<string>;
-	Shards: Array<Shard>;
+	name: string;
+	accelerator?: string;
+	engine?: string;
+	tags: Array<string>;
+	shards: Array<Shard>;
 }
 
 export const isReplicatedState = (value: unknown): value is ReplicatedState => {
@@ -22,11 +22,11 @@ export const isReplicatedState = (value: unknown): value is ReplicatedState => {
 		const r = <ReplicatedState>value;
 
 		return (
-			isString(r.Name) &&
-			(isUndefined(r.Accelerator) || isString(r.Accelerator)) &&
-			(isUndefined(r.Engine) || isString(r.Engine)) &&
-			r.Tags.every(isString) &&
-			r.Shards.every(isShard)
+			isString(r.name) &&
+			(isUndefined(r.accelerator) || isString(r.accelerator)) &&
+			(isUndefined(r.engine) || isString(r.engine)) &&
+			r.tags.every(isString) &&
+			r.shards.every(isShard)
 		);
 	} catch {
 		return false;

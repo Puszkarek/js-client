@@ -9,16 +9,16 @@
 import { has, isBoolean, isDate, isNumber, isString, isUndefined } from 'lodash';
 
 export type Shard = {
-	Name: string;
-	Start: Date;
-	End: Date;
-	Entries: number;
-	Size: number;
-	Cold: boolean;
-	RemoteState?: {
-		UUID: string;
-		Entries: number;
-		Size: number;
+	name: string;
+	start: Date;
+	end: Date;
+	entries: number;
+	size: number;
+	cold: boolean;
+	remoteState?: {
+		UUID: string | undefined;
+		entries: number | undefined;
+		size: number | undefined;
 	};
 };
 
@@ -27,14 +27,14 @@ export const isShard = (value: unknown): value is Shard => {
 		const s = <Shard>value;
 
 		return (
-			isString(s.Name) &&
-			isDate(s.Start) &&
-			isDate(s.End) &&
-			isNumber(s.Entries) &&
-			isNumber(s.Size) &&
-			isBoolean(s.Cold) &&
-			(isUndefined(s.RemoteState) ||
-				(has(s.RemoteState, 'UUID') && has(s.RemoteState, 'Entries') && has(s.RemoteState, 'Size')))
+			isString(s.name) &&
+			isDate(s.start) &&
+			isDate(s.end) &&
+			isNumber(s.entries) &&
+			isNumber(s.size) &&
+			isBoolean(s.cold) &&
+			(isUndefined(s.remoteState) ||
+				(has(s.remoteState, 'UUID') && has(s.remoteState, 'Entries') && has(s.remoteState, 'Size')))
 		);
 	} catch {
 		return false;

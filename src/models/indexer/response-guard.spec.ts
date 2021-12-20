@@ -6,14 +6,14 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { responseGuard } from './response-guard';
+import { rawIndexerWellGuard } from './raw-indexer-well-decoder';
 
 describe('responseGuard()', () => {
 	describe('Should WORK', () => {
 		it('Should RETURN the correct data if is EMPTY', () => {
 			const { validEmpty } = validMockData();
 
-			const result = responseGuard(validEmpty);
+			const result = rawIndexerWellGuard(validEmpty);
 
 			expect(result).toEqual(validEmpty);
 		});
@@ -21,7 +21,7 @@ describe('responseGuard()', () => {
 		it('Should RETURN the correct data if is VALID', () => {
 			const { validIndexerData, validIndexerResult } = validMockData();
 
-			const result = responseGuard(validIndexerData);
+			const result = rawIndexerWellGuard(validIndexerData);
 
 			expect(result).toEqual(validIndexerResult);
 		});
@@ -30,17 +30,17 @@ describe('responseGuard()', () => {
 		it('Should FAILED if indexer is EMPTY', () => {
 			const { emptyIndexerData } = invalidMockData();
 
-			expect(() => responseGuard(emptyIndexerData)).toThrowError();
+			expect(() => rawIndexerWellGuard(emptyIndexerData)).toThrowError();
 		});
 		it('Should FAILED errors if the UUID is INVALID', () => {
 			const { withInvalidUUIDData } = invalidMockData();
 
-			expect(() => responseGuard(withInvalidUUIDData)).toThrowError();
+			expect(() => rawIndexerWellGuard(withInvalidUUIDData)).toThrowError();
 		});
 		it('Should FAILED errors if properties are INVALIDs', () => {
 			const { withInvalidProperty } = invalidMockData();
 
-			expect(() => responseGuard(withInvalidProperty)).toThrowError();
+			expect(() => rawIndexerWellGuard(withInvalidProperty)).toThrowError();
 		});
 	});
 });

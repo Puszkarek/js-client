@@ -7,10 +7,66 @@
  **************************************************************************/
 
 import { IndexerWell } from './indexer-well';
-import { responseGuard } from './response-guard';
+import { rawIndexerWellGuard } from './raw-indexer-well-decoder';
+import { RawReplicatedState } from './raw-replicated-state';
+import { RawShardDecoded } from './raw-shard-decoder';
+import { RawWellDecoded } from './raw-well-decoder';
+import { ReplicatedState } from './replicated-state';
+import { Shard } from './shard';
+import { Well } from './well';
 
 export const toIndexerWell = (data: unknown): Array<IndexerWell> =>
-	Object.entries(responseGuard(data)).map(([name, partialIndexerWell]) => ({
-		Name: name,
-		...partialIndexerWell,
+	Object.entries(rawIndexerWellGuard(data)).map(([name, { UUID, Wells, Replicated }]) => ({
+		UUID: UUID,
+		name: name,
+		wells: toWells(Wells),
+		replicated: toReplicated(Replicated),
 	}));
+
+const toWells = (wells: Array<RawWellDecoded>): Array<Well> =>
+	wells.map(data => {
+		return {
+			name: data.Name,
+			accelerator: data.Accelerator,
+			engine: data.Engine,
+			path: data.Path,
+			tags: data.Tags,
+			shards: toShard(data.Shards),
+		};
+	});
+
+const toReplicated = (
+	replicated: Record<string, Array<RawReplicatedState>> | undefined,
+): Record<string, Array<ReplicatedState>> | undefined => {
+	if (replicated === undefined) return replicated;
+	const convertReplicatedState = Object.entries(replicated).map(([key, replicatedStateList]) => {
+		const list = replicatedStateList.map(data => {
+			return {
+				name: data.Name,
+				accelerator: data.Accelerator,
+				engine: data.Engine,
+				tags: data.Tags,
+				shards: toShard(data.Shards),
+			};
+		});
+		return [key, list];
+	});
+	return Object.fromEntries(convertReplicatedState);
+};
+
+const toShard = (shards: Array<RawShardDecoded>): Array<Shard> =>
+	shards.map(data => {
+		return {
+			name: data.Name,
+			start: data.Start,
+			end: data.End,
+			entries: data.Entries,
+			size: data.Size,
+			cold: data.Cold,
+			remoteState: {
+				UUID: data.RemoteState?.UUID,
+				entries: data.RemoteState?.Entries,
+				size: data.RemoteState?.Size,
+			},
+		};
+	});

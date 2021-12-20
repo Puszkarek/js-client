@@ -10,12 +10,12 @@ import { isString, isUndefined } from 'lodash';
 import { isShard, Shard } from './shard';
 
 export type Well = {
-	Name: string;
-	Accelerator?: string;
-	Engine?: string;
-	Path: string;
-	Tags: Array<string>;
-	Shards: Array<Shard>;
+	name: string;
+	accelerator?: string;
+	engine?: string;
+	path: string;
+	tags: Array<string>;
+	shards: Array<Shard>;
 };
 
 export const isWell = (value: unknown): value is Well => {
@@ -23,12 +23,12 @@ export const isWell = (value: unknown): value is Well => {
 		const w = <Well>value;
 
 		return (
-			isString(w.Name) &&
-			(isUndefined(w.Accelerator) || isString(w.Accelerator)) &&
-			(isUndefined(w.Engine) || isString(w.Engine)) &&
-			isString(w.Path) &&
-			w.Tags.every(isString) &&
-			w.Shards.every(isShard)
+			isString(w.name) &&
+			(isUndefined(w.accelerator) || isString(w.accelerator)) &&
+			(isUndefined(w.engine) || isString(w.engine)) &&
+			isString(w.path) &&
+			w.tags.every(isString) &&
+			w.shards.every(isShard)
 		);
 	} catch {
 		return false;
