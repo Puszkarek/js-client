@@ -8,16 +8,16 @@
 
 import { IndexerWell } from './indexer-well';
 import { rawIndexerWellGuard } from './raw-indexer-well-decoder';
-import { RawReplicatedState } from './raw-replicated-state';
 import { RawShardDecoded } from './raw-shard-decoder';
 import { RawWellDecoded } from './raw-well-decoder';
 import { ReplicatedState } from './replicated-state';
 import { Shard } from './shard';
 import { Well } from './well';
+import { RawReplicatedStateDecoded } from './raw-replicated-state-decoder';
 
 export const toIndexerWell = (data: unknown): Array<IndexerWell> =>
 	Object.entries(rawIndexerWellGuard(data)).map(([name, { UUID, Wells, Replicated }]) => ({
-		UUID: UUID,
+		uuid: UUID,
 		name: name,
 		wells: toWells(Wells),
 		replicated: toReplicated(Replicated),
@@ -36,7 +36,7 @@ const toWells = (wells: Array<RawWellDecoded>): Array<Well> =>
 	});
 
 const toReplicated = (
-	replicated: Record<string, Array<RawReplicatedState>> | undefined,
+	replicated: Record<string, Array<RawReplicatedStateDecoded>> | undefined,
 ): Record<string, Array<ReplicatedState>> | undefined => {
 	if (replicated === undefined) return replicated;
 	const convertReplicatedState = Object.entries(replicated).map(([key, replicatedStateList]) => {

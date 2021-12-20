@@ -6,12 +6,12 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { RawShardDecoded } from './raw-shard-decoder';
+import { RawShard } from './raw-shard';
 
 export interface RawReplicatedState {
 	Name: string;
 	Accelerator?: string;
 	Engine?: string;
 	Tags: Array<string>;
-	Shards: Array<RawShardDecoded>;
+	Shards: Array<RawShard>;
 }
