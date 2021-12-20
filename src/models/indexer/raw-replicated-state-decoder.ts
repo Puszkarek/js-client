@@ -7,8 +7,7 @@
  **************************************************************************/
 
 import { array, dict, object, optional, string } from 'decoders';
-import { RawShardDecoded,rawShardDecoder  } from './raw-shard-decoder';
-
+import { RawShardDecoded, rawShardDecoder } from './raw-shard-decoder';
 
 export interface RawReplicatedStateDecoded {
 	Name: string;
