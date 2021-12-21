@@ -6,6 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
+import { Guard } from 'decoders';
+import { expectTypeOf } from 'expect-type';
 import { UUID } from '../../value-objects/id';
 import { RawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
 import { RawIndexerWellDecoded, rawIndexerWellGuard } from './raw-indexer-well-decoder';
@@ -17,8 +19,15 @@ import { RawWell } from './raw-well';
 import { RawWellDecoded } from './raw-well-decoder';
 
 describe('responseGuard()', () => {
-	describe('Should WORK', () => {
-		it('Should RETURN the correct data if is EMPTY', () => {
+	it('Should have the correct function types', () => {
+		expectTypeOf(rawIndexerWellGuard).toEqualTypeOf<
+			Guard<{
+				[key: string]: RawIndexerWellDecoded;
+			}>
+		>();
+	});
+	describe('With VALID data', () => {
+		it('Should RETURN data correctly if is EMPTY', () => {
 			const { emptyResponse } = validMockData();
 
 			const result = rawIndexerWellGuard(emptyResponse);
@@ -26,7 +35,7 @@ describe('responseGuard()', () => {
 			expect(result).toEqual(emptyResponse);
 		});
 
-		it('Should RETURN the correct data if is VALID', () => {
+		it('Should RETURN data correctly if is VALID', () => {
 			const { rawIndexerResponse, rawIndexerDecoded } = validMockData();
 
 			const result = rawIndexerWellGuard(rawIndexerResponse);
@@ -34,18 +43,18 @@ describe('responseGuard()', () => {
 			expect(result).toEqual(rawIndexerDecoded);
 		});
 	});
-	describe('Should THROW a Error', () => {
-		it('Should FAILED if indexer is EMPTY', () => {
+	describe('With INVALID data', () => {
+		it('Should THROW a error if indexer key is EMPTY', () => {
 			const { emptyIndexerData } = invalidMockData();
 
 			expect(() => rawIndexerWellGuard(emptyIndexerData)).toThrowError();
 		});
-		it('Should FAILED errors if the UUID is INVALID', () => {
+		it('Should THROW a error if the UUID is a NUMBER', () => {
 			const { withInvalidUUIDData } = invalidMockData();
 
 			expect(() => rawIndexerWellGuard(withInvalidUUIDData)).toThrowError();
 		});
-		it('Should FAILED errors if properties are INVALIDs', () => {
+		it('Should THROW a error if properties are INVALIDs', () => {
 			const { withInvalidProperty } = invalidMockData();
 
 			expect(() => rawIndexerWellGuard(withInvalidProperty)).toThrowError();
