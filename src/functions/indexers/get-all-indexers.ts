@@ -17,7 +17,7 @@ export const makeGetAllIndexers = (context: APIContext) => {
 		const req = buildHTTPRequestWithAuthFromContext(context);
 
 		const raw = await fetch(url, { ...req, method: 'GET' });
-		const rawRes = (await parseJSONResponse<RawIndexerWellResponse>(raw)) ?? [];
+		const rawRes = (await parseJSONResponse<RawIndexerWellResponse>(raw)) ?? {};
 
 		return toIndexerWell(rawRes);
 	};

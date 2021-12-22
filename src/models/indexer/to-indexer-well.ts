@@ -6,16 +6,15 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
+import { rawIndexerWellGuard, RawIndexerWellResponse } from './raw-indexer-well';
 import { IndexerWell } from './indexer-well';
-import { rawIndexerWellGuard } from './raw-indexer-well-decoder';
-import { RawReplicatedStateDecoded } from './raw-replicated-state-decoder';
-import { RawShardDecoded } from './raw-shard-decoder';
-import { RawWellDecoded } from './raw-well-decoder';
 import { ReplicatedState } from './replicated-state';
 import { Shard } from './shard';
 import { Well } from './well';
+import { RawReplicatedStateDecoded } from './raw-replicated-state';
+import { RawWellDecoded, RawShardDecoded, assertIsRawIndexerWellDecoded } from '.';
 
-export const toIndexerWell = (data: unknown): Array<IndexerWell> =>
+export const toIndexerWell = (data: RawIndexerWellResponse): Array<IndexerWell> =>
 	Object.entries(rawIndexerWellGuard(data)).map(([name, { UUID, Wells, Replicated }]) => ({
 		uuid: UUID,
 		name: name,

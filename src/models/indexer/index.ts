@@ -7,13 +7,13 @@
  **************************************************************************/
 
 export * from './indexer-well';
-export * from './raw-indexer-well-decoder';
 export * from './raw-indexer-well';
-export * from './raw-replicated-state-decoder';
+export * from './raw-indexer-well';
 export * from './raw-replicated-state';
-export * from './raw-shard-decoder';
+export * from './raw-replicated-state';
 export * from './raw-shard';
-export * from './raw-well-decoder';
+export * from './raw-shard';
+export * from './raw-well';
 export * from './raw-well';
 export * from './replicated-state';
 export * from './shard';

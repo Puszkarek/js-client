@@ -6,7 +6,9 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { RawReplicatedState } from './raw-replicated-state';
+import { dict, object, string, guard } from 'decoders';
+import { RawWellDecoded, rawWellDecoder } from './raw-well';
+import { RawReplicatedState, RawReplicatedStateDecoded, rawReplicatedStateDecoder } from './raw-replicated-state';
 import { RawWell } from './raw-well';
 
 export type RawIndexerWell = {
@@ -18,3 +20,23 @@ export type RawIndexerWell = {
 export type RawIndexerWellResponse = {
 	[key: string]: RawIndexerWell;
 };
+
+export type RawIndexerWellDecoded = {
+	UUID: string;
+	Wells: Array<RawWellDecoded>;
+	Replicated?: Record<string, Array<RawReplicatedStateDecoded>>;
+};
+
+export const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
+	object({
+		UUID: string,
+		Wells: rawWellDecoder,
+		Replicated: rawReplicatedStateDecoder,
+	}),
+);
+
+type AssertIsRawIndexerWellDecoded = (value: unknown) => asserts value is RawIndexerWellDecoded;
+
+export const rawIndexerWellGuard = guard(rawIndexerWellDecoder);
+
+export const assertIsRawIndexerWellDecoded: AssertIsRawIndexerWellDecoded = value => rawIndexerWellGuard(value);
