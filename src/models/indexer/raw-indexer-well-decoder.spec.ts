@@ -6,7 +6,6 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { Guard } from 'decoders';
 import { expectTypeOf } from 'expect-type';
 import { UUID } from '../../value-objects/id';
 import { RawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
@@ -19,13 +18,14 @@ import { RawWell } from './raw-well';
 import { RawWellDecoded } from './raw-well-decoder';
 
 describe('responseGuard()', () => {
-	it('Should have the correct function types', () => {
-		expectTypeOf(rawIndexerWellGuard).toEqualTypeOf<
-			Guard<{
-				[key: string]: RawIndexerWellDecoded;
-			}>
-		>();
+	it('Should have the correct function type', () => {
+		expectTypeOf(rawIndexerWellGuard).toEqualTypeOf<(data: unknown) => asserts data is RawIndexerWellDecoded>(null!);
 	});
+
+	it('Should have the correct function return type', () => {
+		expectTypeOf(rawIndexerWellGuard).returns.toEqualTypeOf<RawIndexerWellDecoded>(null!);
+	});
+
 	describe('With VALID data', () => {
 		it('Should RETURN data correctly if is EMPTY', () => {
 			const { emptyResponse } = validMockData();
@@ -70,8 +70,6 @@ const validMockData = () => {
 
 	// Wells
 	const wellName = 'default';
-	const wellAccelerator = undefined;
-	const wellEngine = undefined;
 	const wellPath = '/opt/gravwell/storage/default';
 	const wellTags = ['default', 'gravwell'];
 
@@ -84,13 +82,9 @@ const validMockData = () => {
 	const shardStartISO8601 = '2021-12-17T03:50:24.000Z';
 	const shardEndISO8601 = '2021-12-18T16:14:56.000Z';
 
-	const shardRemoteState = undefined;
-
 	// Replicated
 	const replicatedKey = 'replicated-key';
 	const replicatedName = 'replicated-name';
-	const replicatedAccelerator = undefined;
-	const replicatedEngine = undefined;
 	const replicatedTags = ['one', 'two'];
 
 	//* Mount raw response
@@ -104,7 +98,6 @@ const validMockData = () => {
 			Entries: shardEntries,
 			Size: shardSize,
 			Cold: shardCold,
-			RemoteState: shardRemoteState,
 		},
 	];
 
@@ -112,8 +105,6 @@ const validMockData = () => {
 	const _rawWells: Array<RawWell> = [
 		{
 			Name: wellName,
-			Accelerator: wellAccelerator,
-			Engine: wellEngine,
 			Path: wellPath,
 			Tags: wellTags,
 			Shards: _rawShards,
@@ -126,8 +117,6 @@ const validMockData = () => {
 		[replicatedKey]: [
 			{
 				Name: replicatedName,
-				Accelerator: replicatedAccelerator,
-				Engine: replicatedEngine,
 				Tags: replicatedTags,
 				Shards: _replicatedShards,
 			},
@@ -162,7 +151,6 @@ const validMockData = () => {
 			Entries: shardEntries,
 			Size: shardSize,
 			Cold: shardCold,
-			RemoteState: shardRemoteState,
 		},
 	];
 
@@ -170,8 +158,6 @@ const validMockData = () => {
 	const _rawWellsDecoded: Array<RawWellDecoded> = [
 		{
 			Name: wellName,
-			Accelerator: wellAccelerator,
-			Engine: wellEngine,
 			Path: wellPath,
 			Tags: wellTags,
 			Shards: _rawShardDecoded,
@@ -184,8 +170,6 @@ const validMockData = () => {
 		[replicatedKey]: [
 			{
 				Name: replicatedName,
-				Accelerator: replicatedAccelerator,
-				Engine: replicatedEngine,
 				Tags: replicatedTags,
 				Shards: _replicatedShardsDecoded,
 			},
