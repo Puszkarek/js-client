@@ -34,7 +34,7 @@ export const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
 	}),
 );
 
-type AssertIsRawIndexerWell = (value: unknown) => asserts value is string;
+type AssertIsRawIndexerWell = (value: unknown) => asserts value is RawIndexerWellResponse;
 
 export const rawIndexerWellGuard = guard(rawIndexerWellDecoder);
 
