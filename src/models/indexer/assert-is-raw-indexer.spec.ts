@@ -14,7 +14,7 @@ import { RawReplicatedState } from './raw-replicated-state';
 import { RawShard } from './raw-shard';
 import { RawWell } from './raw-well';
 
-fdescribe(assertIsRawIndexerWell.name, () => {
+describe(assertIsRawIndexerWell.name, () => {
 	describe('Function types', () => {
 		it('Should have the correct function type', () => {
 			expectTypeOf(assertIsRawIndexerWell).toEqualTypeOf<(data: unknown) => asserts data is RawIndexerWellDecoded>();
