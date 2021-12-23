@@ -6,8 +6,9 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
+import { assertIsRawIndexerWell } from './assert-is-raw-indexer';
 import { IndexerWell } from './indexer-well';
-import { assertIsRawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
+import { RawIndexerWellResponse } from './raw-indexer-well';
 import { RawReplicatedState } from './raw-replicated-state';
 import { RawShard } from './raw-shard';
 import { RawWell } from './raw-well';
