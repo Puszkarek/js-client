@@ -6,6 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
+import { isEmpty } from 'lodash';
 import { IndexerWell, RawIndexerWellResponse, toIndexerWell } from '~/models';
 import { APIContext, buildHTTPRequestWithAuthFromContext, buildURL, fetch, parseJSONResponse } from '../utils';
 
@@ -19,6 +20,6 @@ export const makeGetAllIndexers = (context: APIContext) => {
 		const raw = await fetch(url, { ...req, method: 'GET' });
 		const rawRes = (await parseJSONResponse<RawIndexerWellResponse>(raw)) ?? {};
 
-		return toIndexerWell(rawRes);
+		return isEmpty(rawRes) ? [] : toIndexerWell(rawRes);
 	};
 };
