@@ -7,23 +7,21 @@
  **************************************************************************/
 
 import { expectTypeOf } from 'expect-type';
-import { rawIndexerWellGuard } from '.';
 import { UUID } from '../../value-objects/id';
-import { assertIsRawIndexerWellDecoded, RawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
-import { RawIndexerWellDecoded } from './raw-indexer-well';
-import { RawReplicatedState } from './raw-replicated-state';
-import { RawReplicatedStateDecoded } from './raw-replicated-state';
-import { RawShard } from './raw-shard';
-import { RawShardDecoded } from './raw-shard';
-import { RawWell } from './raw-well';
-import { RawWellDecoded } from './raw-well';
+import {
+	assertIsRawIndexerWell,
+	RawIndexerWell,
+	RawIndexerWellDecoded,
+	RawIndexerWellResponse,
+} from './raw-indexer-well';
+import { RawReplicatedState, RawReplicatedStateDecoded } from './raw-replicated-state';
+import { RawShard, RawShardDecoded } from './raw-shard';
+import { RawWell, RawWellDecoded } from './raw-well';
 
-fdescribe('assertIsRawIndexerWellDecoded', () => {
+describe('assertIsRawIndexerWellDecoded()', () => {
 	describe('Function types', () => {
 		it('Should have the correct function type', () => {
-			expectTypeOf(assertIsRawIndexerWellDecoded).toEqualTypeOf<
-				(data: unknown) => asserts data is RawIndexerWellDecoded
-			>();
+			expectTypeOf(assertIsRawIndexerWell).toEqualTypeOf<(data: unknown) => asserts data is RawIndexerWellDecoded>();
 		});
 	});
 
@@ -31,36 +29,34 @@ fdescribe('assertIsRawIndexerWellDecoded', () => {
 		it('Should not throw an error if the data is empty', () => {
 			const { emptyResponse } = validMockData();
 
-			assertIsRawIndexerWellDecoded(emptyResponse);
-			expect(true).toBeTrue();
+			const rawIndexerWellResult = assertIsRawIndexerWell(emptyResponse) as any;
+
+			expect(rawIndexerWellResult).toEqual(emptyResponse);
 		});
 
-		xit('Should not throw an error if the data is valid', () => {
-			const { rawIndexerResponse } = validMockData();
+		it('Should not throw an error if the data is valid', () => {
+			const { rawIndexerResponse, rawIndexerDecoded } = validMockData();
 
-			assertIsRawIndexerWellDecoded(rawIndexerResponse);
-			expect(() => assertIsRawIndexerWellDecoded(rawIndexerResponse)).toBeUndefined();
+			const rawIndexerWellResult = assertIsRawIndexerWell(rawIndexerResponse) as any;
+
+			expect(rawIndexerWellResult).toEqual(rawIndexerDecoded);
 		});
 	});
 	describe('Should throw an error when we pass invalid data', () => {
-		xit('Should throw an error if indexer key is empty', () => {
+		it('Should throw an error if indexer key is empty', () => {
 			const { emptyIndexerData } = invalidMockData();
-			const { rawIndexerResponse } = validMockData();
 
-			rawIndexerWellGuard(rawIndexerResponse);
-			//console.log({ a, here: '--------------------' });
-
-			expect(() => assertIsRawIndexerWellDecoded(emptyIndexerData)).toThrowError();
+			expect(() => assertIsRawIndexerWell(emptyIndexerData)).toThrowError();
 		});
 		it('Should throw an error if the uuid is a number', () => {
 			const { withInvalidUUIDData } = invalidMockData();
 
-			expect(() => assertIsRawIndexerWellDecoded(withInvalidUUIDData)).toThrowError();
+			expect(() => assertIsRawIndexerWell(withInvalidUUIDData)).toThrowError();
 		});
 		it('Should throw an error if properties are invalids', () => {
 			const { withInvalidProperty } = invalidMockData();
 
-			expect(() => assertIsRawIndexerWellDecoded(withInvalidProperty)).toThrowError();
+			expect(() => assertIsRawIndexerWell(withInvalidProperty)).toThrowError();
 		});
 	});
 });

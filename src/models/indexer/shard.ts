@@ -22,6 +22,7 @@ export type RemoteState = {
 	entries: number;
 	size: number;
 };
+
 export const isShard = (value: unknown): value is Shard => {
 	try {
 		const s = <Shard>value;

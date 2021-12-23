@@ -6,38 +6,42 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { rawIndexerWellGuard, RawIndexerWellResponse } from './raw-indexer-well';
 import { IndexerWell } from './indexer-well';
+import { assertIsRawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
+import { RawReplicatedState } from './raw-replicated-state';
+import { RawShard } from './raw-shard';
+import { RawWell } from './raw-well';
 import { ReplicatedState } from './replicated-state';
 import { Shard } from './shard';
 import { Well } from './well';
-import { RawReplicatedStateDecoded } from './raw-replicated-state';
-import { RawWellDecoded, RawShardDecoded, assertIsRawIndexerWellDecoded } from '.';
 
-export const toIndexerWell = (data: RawIndexerWellResponse): Array<IndexerWell> =>
-	Object.entries(rawIndexerWellGuard(data)).map(([name, { UUID, Wells, Replicated }]) => ({
+export const toIndexerWell = (data: RawIndexerWellResponse): Array<IndexerWell> => {
+	assertIsRawIndexerWell(data);
+
+	return Object.entries(data).map(([name, { UUID, Wells, Replicated }]) => ({
 		uuid: UUID,
 		name: name,
-		wells: toWells(Wells),
+		wells: Wells.map(toWell),
 		replicated: toReplicated(Replicated),
 	}));
+};
 
-const toWells = (wells: Array<RawWellDecoded>): Array<Well> =>
-	wells.map(data => {
-		return {
-			name: data.Name,
-			accelerator: data.Accelerator,
-			engine: data.Engine,
-			path: data.Path,
-			tags: data.Tags,
-			shards: toShard(data.Shards),
-		};
-	});
+const toWell = (well: RawWell): Well => {
+	return {
+		name: well.Name,
+		accelerator: well.Accelerator,
+		engine: well.Engine,
+		path: well.Path,
+		tags: well.Tags,
+		shards: well.Shards.map(toShard),
+	};
+};
 
 const toReplicated = (
-	replicated: Record<string, Array<RawReplicatedStateDecoded>> | undefined,
+	replicated: Record<string, Array<RawReplicatedState>> | undefined,
 ): Record<string, Array<ReplicatedState>> | undefined => {
 	if (replicated === undefined) return replicated;
+
 	const convertReplicatedState = Object.entries(replicated).map(([key, replicatedStateList]) => {
 		const list = replicatedStateList.map(data => {
 			return {
@@ -45,31 +49,31 @@ const toReplicated = (
 				accelerator: data.Accelerator,
 				engine: data.Engine,
 				tags: data.Tags,
-				shards: toShard(data.Shards),
+				shards: data.Shards.map(toShard),
 			};
 		});
+
 		return [key, list];
 	});
 	return Object.fromEntries(convertReplicatedState);
 };
 
-const toShard = (shards: Array<RawShardDecoded>): Array<Shard> =>
-	shards.map(data => {
-		const _shardPartial = {
-			name: data.Name,
-			start: data.Start,
-			end: data.End,
-			entries: data.Entries,
-			size: data.Size,
-			cold: data.Cold,
-		};
-		const _remoteState = data.RemoteState && {
-			uuid: data.RemoteState.UUID,
-			entries: data.RemoteState.Entries,
-			size: data.RemoteState.Size,
-		};
-		return {
-			..._shardPartial,
-			remoteState: _remoteState,
-		};
-	});
+const toShard = (shard: RawShard): Shard => {
+	const _shardPartial = {
+		name: shard.Name,
+		start: new Date(shard.Start),
+		end: new Date(shard.End),
+		entries: shard.Entries,
+		size: shard.Size,
+		cold: shard.Cold,
+	};
+	const _remoteState = shard.RemoteState && {
+		uuid: shard.RemoteState.UUID,
+		entries: shard.RemoteState.Entries,
+		size: shard.RemoteState.Size,
+	};
+	return {
+		..._shardPartial,
+		remoteState: _remoteState,
+	};
+};

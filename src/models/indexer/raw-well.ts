@@ -6,9 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { array, object, string, optional } from 'decoders';
-import { RawShardDecoded, rawShardDecoder } from '.';
-import { RawShard } from './raw-shard';
+import { array, object, optional, string } from 'decoders';
+import { RawShard, RawShardDecoded, rawShardDecoder } from './raw-shard';
 
 export type RawWell = {
 	Name: string;
@@ -28,13 +27,11 @@ export type RawWellDecoded = {
 	Shards: Array<RawShardDecoded>;
 };
 
-export const rawWellDecoder = array<RawWellDecoded>(
-	object({
-		Name: string,
-		Accelerator: optional(string),
-		Engine: optional(string),
-		Path: string,
-		Tags: array(string),
-		Shards: array(rawShardDecoder),
-	}),
-);
+export const rawWellDecoder = object({
+	Name: string,
+	Accelerator: optional(string),
+	Engine: optional(string),
+	Path: string,
+	Tags: array(string),
+	Shards: array(rawShardDecoder),
+});

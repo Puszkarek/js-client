@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { object, string, iso8601, number, boolean, optional } from 'decoders';
+import { boolean, iso8601, number, object, optional, string } from 'decoders';
 
 type ISO8601String = string;
 

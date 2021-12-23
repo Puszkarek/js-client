@@ -6,9 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { dict, array, object, string, optional } from 'decoders';
-import { RawShardDecoded, rawShardDecoder } from '.';
-import { RawShard } from './raw-shard';
+import { array, dict, object, optional, string } from 'decoders';
+import { RawShard, RawShardDecoded, rawShardDecoder } from './raw-shard';
 
 export interface RawReplicatedState {
 	Name: string;
