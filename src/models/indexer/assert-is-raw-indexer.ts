@@ -7,7 +7,9 @@
  **************************************************************************/
 
 import { array, dict, guard, object, string } from 'decoders';
-import { RawIndexerWellDecoded, RawIndexerWellResponse, rawReplicatedStateDecoder, rawWellDecoder } from '.';
+import { RawIndexerWellDecoded, RawIndexerWellResponse } from './raw-indexer-well';
+import { rawReplicatedStateDecoder } from './raw-replicated-state';
+import { rawWellDecoder } from './raw-well';
 
 export const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
 	object({
