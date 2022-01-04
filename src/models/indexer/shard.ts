@@ -6,7 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { has, isBoolean, isDate, isNumber, isString, isUndefined } from 'lodash';
+import { isBoolean, isDate, isNumber, isString, isUndefined } from 'lodash';
+import { isUUID } from '~/value-objects';
 
 export type Shard = {
 	name: string;
@@ -15,9 +16,10 @@ export type Shard = {
 	entries: number;
 	size: number;
 	cold: boolean;
-	remoteState?: RemoteState | undefined;
+	remoteState?: ShardRemoteState | undefined;
 };
-export type RemoteState = {
+
+export type ShardRemoteState = {
 	uuid: string;
 	entries: number;
 	size: number;
@@ -35,7 +37,7 @@ export const isShard = (value: unknown): value is Shard => {
 			isNumber(s.size) &&
 			isBoolean(s.cold) &&
 			(isUndefined(s.remoteState) ||
-				(has(s.remoteState, 'UUID') && has(s.remoteState, 'Entries') && has(s.remoteState, 'Size')))
+				(isUUID(s.remoteState.uuid) && isNumber(s.remoteState.entries) && isNumber(s.remoteState.size)))
 		);
 	} catch {
 		return false;
