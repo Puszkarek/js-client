@@ -23,7 +23,7 @@ export const toIndexerWell = (data: RawIndexerWellResponse): Array<IndexerWell> 
 		uuid: UUID,
 		name: name,
 		wells: Wells.map(toWell),
-		replicated: toReplicated(Replicated),
+		replicated: toReplicatedState(Replicated),
 	}));
 };
 
@@ -38,12 +38,12 @@ const toWell = (well: RawWell): Well => {
 	};
 };
 
-const toReplicated = (
-	replicated: Record<string, Array<RawReplicatedState>> | undefined,
+const toReplicatedState = (
+	raw: Record<string, Array<RawReplicatedState>> | undefined,
 ): Record<string, Array<ReplicatedState>> | undefined => {
-	if (replicated === undefined) return replicated;
+	if (raw === undefined) return raw;
 
-	const convertReplicatedState = Object.entries(replicated).map(([key, replicatedStateList]) => {
+	const convertReplicatedState = Object.entries(raw).map(([key, replicatedStateList]) => {
 		const list = replicatedStateList.map(data => {
 			return {
 				name: data.Name,

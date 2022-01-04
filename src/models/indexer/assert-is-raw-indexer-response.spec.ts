@@ -9,7 +9,7 @@
 import { expectTypeOf } from 'expect-type';
 import { UUID } from '../../value-objects/id';
 import { assertIsRawIndexerWellResponse } from './assert-is-raw-indexer-response';
-import { RawIndexerWell, RawIndexerWellDecoded, RawIndexerWellResponse } from './raw-indexer-well';
+import { RawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
 import { RawReplicatedState } from './raw-replicated-state';
 import { RawShard } from './raw-shard';
 import { RawWell } from './raw-well';
@@ -17,7 +17,9 @@ import { RawWell } from './raw-well';
 describe(assertIsRawIndexerWellResponse.name, () => {
 	describe('Function types', () => {
 		it('Should have the correct function type', () => {
-			expectTypeOf(assertIsRawIndexerWellResponse).toEqualTypeOf<(data: unknown) => asserts data is RawIndexerWellDecoded>();
+			expectTypeOf(assertIsRawIndexerWellResponse).toEqualTypeOf<
+				(data: unknown) => asserts data is RawIndexerWellResponse
+			>();
 		});
 	});
 
@@ -29,24 +31,23 @@ describe(assertIsRawIndexerWellResponse.name, () => {
 
 		it('Should not throw an error if the data is valid', () => {
 			const { rawIndexerResponse } = validMockData();
-
 			expect(() => assertIsRawIndexerWellResponse(rawIndexerResponse)).not.toThrowError();
 		});
 	});
+
 	describe('Should throw an error when we pass invalid data', () => {
 		it('Should throw an error if indexer key is empty', () => {
 			const { emptyIndexerData } = invalidMockData();
-
 			expect(() => assertIsRawIndexerWellResponse(emptyIndexerData)).toThrowError();
 		});
+
 		it('Should throw an error if the uuid is a number', () => {
 			const { withInvalidUUIDData } = invalidMockData();
-
 			expect(() => assertIsRawIndexerWellResponse(withInvalidUUIDData)).toThrowError();
 		});
-		it('Should throw an error if properties are invalids', () => {
-			const { withInvalidProperty } = invalidMockData();
 
+		it('Should throw an error if the properties are invalid', () => {
+			const { withInvalidProperty } = invalidMockData();
 			expect(() => assertIsRawIndexerWellResponse(withInvalidProperty)).toThrowError();
 		});
 	});
@@ -120,8 +121,8 @@ const invalidMockData = () => {
 	// Global Values
 	const uuid: UUID = 'unique-id';
 
-	// Raw Wells
-	const _rawWells: Array<RawWell> = [
+	// Invalid Raw Wells
+	const _invalidRawWells: Array<RawWell> = [
 		{
 			Name: unsafe(false),
 			Accelerator: unsafe(false),
@@ -132,29 +133,29 @@ const invalidMockData = () => {
 		},
 	];
 
-	const _rawReplicated: Record<string, Array<RawReplicatedState>> = {
-		[unsafe({})]: [
+	const _invalidRawReplicated: Record<string, Array<RawReplicatedState>> = {
+		test: [
 			{
 				Name: unsafe(false),
 				Accelerator: unsafe(false),
 				Engine: unsafe(false),
 				Tags: unsafe(false),
-				Shards: unsafe([]),
+				Shards: [],
 			},
 		],
 	};
 
 	// Raw Indexer Well's
-	const _completeRawIndexerWell: RawIndexerWell = {
+	const _invalidRawIndexerWell: RawIndexerWell = {
 		UUID: uuid,
-		Wells: _rawWells,
-		Replicated: _rawReplicated,
+		Wells: _invalidRawWells,
+		Replicated: _invalidRawReplicated,
 	};
 
 	// Invalid Responses
 	const emptyIndexerData = { ['firstIndexerName']: undefined };
 	const withInvalidUUIDData = { ['firstIndexerName']: { UUID: 0, Wells: [], Replicated: {} } };
-	const withInvalidProperty = { ['firstIndexerName']: _completeRawIndexerWell };
+	const withInvalidProperty = { ['firstIndexerName']: _invalidRawIndexerWell };
 
 	return { emptyIndexerData, withInvalidUUIDData, withInvalidProperty };
 };
