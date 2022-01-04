@@ -8,7 +8,7 @@
 
 import { expectTypeOf } from 'expect-type';
 import { UUID } from '../../value-objects/id';
-import { assertIsRawIndexerWellResponse } from './assert-is-raw-indexer';
+import { assertIsRawIndexerWellResponse } from './assert-is-raw-indexer-response';
 import { RawIndexerWell, RawIndexerWellDecoded, RawIndexerWellResponse } from './raw-indexer-well';
 import { RawReplicatedState } from './raw-replicated-state';
 import { RawShard } from './raw-shard';

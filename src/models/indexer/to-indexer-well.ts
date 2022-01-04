@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { assertIsRawIndexerWellResponse } from './assert-is-raw-indexer';
+import { assertIsRawIndexerWellResponse } from './assert-is-raw-indexer-response';
 import { IndexerWell } from './indexer-well';
 import { RawIndexerWellResponse } from './raw-indexer-well';
 import { RawReplicatedState } from './raw-replicated-state';
