@@ -11,7 +11,7 @@ import { RawIndexerWellDecoded, RawIndexerWellResponse } from './raw-indexer-wel
 import { rawReplicatedStateDecoder } from './raw-replicated-state';
 import { rawWellDecoder } from './raw-well';
 
-export const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
+const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
 	object({
 		UUID: string,
 		Wells: array(rawWellDecoder),
@@ -19,8 +19,8 @@ export const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
 	}),
 );
 
-type AssertIsRawIndexerWell = (value: unknown) => asserts value is RawIndexerWellResponse;
+type AssertIsRawIndexerWellResponse = (value: unknown) => asserts value is RawIndexerWellResponse;
 
-export const rawIndexerWellGuard = guard(rawIndexerWellDecoder);
+const rawIndexerWellGuard = guard(rawIndexerWellDecoder);
 
-export const assertIsRawIndexerWell: AssertIsRawIndexerWell = value => rawIndexerWellGuard(value);
+export const assertIsRawIndexerWellResponse: AssertIsRawIndexerWellResponse = value => rawIndexerWellGuard(value);

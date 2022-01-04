@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { assertIsRawIndexerWell } from './assert-is-raw-indexer';
+import { assertIsRawIndexerWellResponse } from './assert-is-raw-indexer';
 import { IndexerWell } from './indexer-well';
 import { RawIndexerWellResponse } from './raw-indexer-well';
 import { RawReplicatedState } from './raw-replicated-state';
@@ -17,7 +17,7 @@ import { Shard } from './shard';
 import { Well } from './well';
 
 export const toIndexerWell = (data: RawIndexerWellResponse): Array<IndexerWell> => {
-	assertIsRawIndexerWell(data);
+	assertIsRawIndexerWellResponse(data);
 
 	return Object.entries(data).map(([name, { UUID, Wells, Replicated }]) => ({
 		uuid: UUID,
