@@ -13,7 +13,6 @@ import {
 	APIContext,
 	buildHTTPRequestWithAuthFromContext,
 	buildURL,
-	fetch,
 	HTTPRequestOptions,
 	parseJSONResponse,
 } from '../utils';
@@ -24,8 +23,8 @@ export const makeCreateOneFile = (context: APIContext) => {
 	const updateOneFile = makeUpdateOneFile(context);
 	const getOneFile = makeGetOneFile(context);
 
-	const templatePath = '/api/files';
-	const url = buildURL(templatePath, { ...context, protocol: 'http' });
+	const filesPath = '/api/files';
+	const url = buildURL(filesPath, { ...context, protocol: 'http' });
 
 	return async (data: CreatableFile): Promise<FileMetadata> => {
 		try {
@@ -34,7 +33,7 @@ export const makeCreateOneFile = (context: APIContext) => {
 			};
 			const req = buildHTTPRequestWithAuthFromContext(context, baseRequestOptions);
 
-			const raw = await fetch(url, { ...req, method: 'POST' });
+			const raw = await context.fetch(url, { ...req, method: 'POST' });
 			const rawRes = await parseJSONResponse<RawBaseFileMetadata>(raw);
 			const globalID = rawRes.GUID;
 

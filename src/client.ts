@@ -9,7 +9,7 @@
 import { isEqual, isUndefined } from 'lodash';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
-import { APIContext } from '~/functions/utils';
+import { APIContext, fetch } from '~/functions/utils';
 import {
 	ActionablesService,
 	AuthService,
@@ -44,6 +44,7 @@ import {
 	createSystemService,
 	createTagsService,
 	createTemplatesService,
+	createTokensService,
 	createUserPreferencesService,
 	createUsersService,
 	createWebServerService,
@@ -74,6 +75,7 @@ import {
 	SystemService,
 	TagsService,
 	TemplatesService,
+	TokensService,
 	UserPreferencesService,
 	UsersService,
 	WebServerService,
@@ -82,6 +84,7 @@ import {
 export interface GravwellClientOptions {
 	useEncryption?: boolean;
 	authToken?: string;
+	fetch?: typeof fetch;
 }
 
 export class GravwellClient {
@@ -114,12 +117,19 @@ export class GravwellClient {
 	protected _authToken$ = new BehaviorSubject<string | null>(this._authToken);
 	public readonly authToken$ = this._authToken$.asObservable();
 
+	private readonly _initialOptions: GravwellClientOptions;
+
 	private readonly _context$: Observable<APIContext> = combineLatest(
 		this.host$,
 		this.useEncryption$,
 		this.authToken$,
 	).pipe(
-		map(([host, useEncryption, authToken]) => ({ host, useEncryption, authToken })),
+		map(([host, useEncryption, authToken]) => ({
+			host,
+			useEncryption,
+			authToken,
+			fetch: this._initialOptions.fetch ?? fetch,
+		})),
 		distinctUntilChanged((a, b) => isEqual(a, b)),
 		shareReplay(1),
 	);
@@ -138,6 +148,7 @@ export class GravwellClient {
 
 	constructor(host: string, options: GravwellClientOptions = {}) {
 		this.host = host;
+		this._initialOptions = options;
 		if (!isUndefined(options.useEncryption)) this.useEncryption = options.useEncryption;
 		if (!isUndefined(options.authToken)) this.authenticate(options.authToken);
 
@@ -150,6 +161,7 @@ export class GravwellClient {
 			host: this.host,
 			useEncryption: this.useEncryption,
 			authToken: this.authToken,
+			fetch: this._initialOptions.fetch ?? fetch,
 		};
 		this._tags = createTagsService(initialContext);
 		this._system = createSystemService(initialContext);
@@ -184,6 +196,7 @@ export class GravwellClient {
 		this._explorer = createExplorerService(initialContext);
 		this._searchGroups = createSearchGroupsService(initialContext);
 		this._mailServer = createMailServerService(initialContext);
+		this._tokens = createTokensService(initialContext);
 
 		this._context$.subscribe(context => {
 			this._tags = createTagsService(context);
@@ -219,6 +232,7 @@ export class GravwellClient {
 			this._explorer = createExplorerService(context);
 			this._searchGroups = createSearchGroupsService(context);
 			this._mailServer = createMailServerService(context);
+			this._tokens = createTokensService(context);
 		});
 	}
 
@@ -387,4 +401,9 @@ export class GravwellClient {
 		return this._mailServer;
 	}
 	private _mailServer: MailServerService;
+
+	public get tokens(): TokensService {
+		return this._tokens;
+	}
+	private _tokens: TokensService;
 }

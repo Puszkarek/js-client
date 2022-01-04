@@ -9,5 +9,6 @@
 export * from './is-version';
 export * from './raw-version';
 export * from './raw-version-object';
+export * from './to-raw-version-object';
 export * from './to-version';
 export * from './version';
