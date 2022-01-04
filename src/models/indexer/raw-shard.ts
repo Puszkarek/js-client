@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { boolean, iso8601, number, object, optional, string } from 'decoders';
+import { boolean, Decoder, iso8601, map, number, object, optional, string } from 'decoders';
 
 type ISO8601String = string;
 
@@ -24,24 +24,10 @@ export type RawShard = {
 	};
 };
 
-export type RawShardDecoded = {
-	Name: string;
-	Start: Date;
-	End: Date;
-	Entries: number;
-	Size: number;
-	Cold: boolean;
-	RemoteState?: {
-		UUID: string;
-		Entries: number;
-		Size: number;
-	};
-};
-
-export const rawShardDecoder = object({
+export const rawShardDecoder: Decoder<RawShard> = object({
 	Name: string,
-	Start: iso8601,
-	End: iso8601,
+	Start: map(iso8601, date => date.toISOString()),
+	End: map(iso8601, date => date.toISOString()),
 	Entries: number,
 	Size: number,
 	Cold: boolean,

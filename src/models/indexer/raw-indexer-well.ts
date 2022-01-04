@@ -6,8 +6,8 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { RawReplicatedState, RawReplicatedStateDecoded } from './raw-replicated-state';
-import { RawWell, RawWellDecoded } from './raw-well';
+import { RawReplicatedState } from './raw-replicated-state';
+import { RawWell } from './raw-well';
 
 export type RawIndexerWell = {
 	UUID: string;
@@ -17,10 +17,4 @@ export type RawIndexerWell = {
 
 export type RawIndexerWellResponse = {
 	[key: string]: RawIndexerWell;
-};
-
-export type RawIndexerWellDecoded = {
-	UUID: string;
-	Wells: Array<RawWellDecoded>;
-	Replicated?: Record<string, Array<RawReplicatedStateDecoded>>;
 };

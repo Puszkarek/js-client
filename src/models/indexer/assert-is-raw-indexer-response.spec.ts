@@ -114,6 +114,7 @@ const validMockData = () => {
 
 	return { rawIndexerResponse, emptyResponse };
 };
+
 const invalidMockData = () => {
 	// Escape hatch for create invalid data
 	const unsafe = (value: unknown): any => value as any;

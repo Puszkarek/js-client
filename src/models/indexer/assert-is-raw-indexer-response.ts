@@ -6,16 +6,16 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { array, dict, guard, object, string } from 'decoders';
-import { RawIndexerWellDecoded, RawIndexerWellResponse } from './raw-indexer-well';
-import { rawReplicatedStateDecoder } from './raw-replicated-state';
+import { array, Decoder, dict, guard, object, string } from 'decoders';
+import { RawIndexerWell, RawIndexerWellResponse } from './raw-indexer-well';
+import { RawReplicatedState, rawReplicatedStateDecoder } from './raw-replicated-state';
 import { rawWellDecoder } from './raw-well';
 
-const rawIndexerWellDecoder = dict<RawIndexerWellDecoded>(
+const rawIndexerWellDecoder: Decoder<RawIndexerWellResponse> = dict<RawIndexerWell>(
 	object({
 		UUID: string,
 		Wells: array(rawWellDecoder),
-		Replicated: rawReplicatedStateDecoder,
+		Replicated: dict<Array<RawReplicatedState>>(array(rawReplicatedStateDecoder)),
 	}),
 );
 
