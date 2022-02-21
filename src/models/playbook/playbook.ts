@@ -22,7 +22,7 @@ export interface Playbook {
 	 * Each user may only have one playbook with a given GUID, but multiple users
 	 * could each have a copy of a playbook with the same GUID.
 	 */
-	guid: UUID;
+	globalID: UUID;
 
 	/**
 	 *  User ID of the playbook owner.
