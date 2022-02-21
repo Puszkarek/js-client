@@ -21,13 +21,13 @@ export const makeUpdateOneActionable = (context: APIContext) => {
 
 	return async (data: UpdatableActionable): Promise<Actionable> => {
 		try {
-			const current = await getOneActionable(data.uuid);
+			const current = await getOneActionable(data.globalID);
 
 			const templatePath = '/api/pivots/{actionableID}';
 			const url = buildURL(templatePath, {
 				...context,
 				protocol: 'http',
-				pathParams: { actionableID: data.uuid },
+				pathParams: { actionableID: data.globalID },
 			});
 
 			const baseRequestOptions: HTTPRequestOptions = {

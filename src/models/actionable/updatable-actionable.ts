@@ -11,7 +11,7 @@ import { NumericID, UUID } from '~/value-objects';
 import { ActionableAction, ActionableTrigger } from './actionable';
 
 export interface UpdatableActionable {
-	uuid: UUID;
+	globalID: UUID;
 	userID?: NumericID;
 	groupIDs?: Array<NumericID>;
 

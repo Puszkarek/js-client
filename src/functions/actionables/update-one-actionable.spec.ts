@@ -36,10 +36,10 @@ describe('updateOneActionable()', () => {
 	});
 
 	afterEach(async () => {
-		await deleteOneActionable(createdActionable.uuid).catch(() => undefined);
+		await deleteOneActionable(createdActionable.globalID).catch(() => undefined);
 	});
 
-	const updateTests: Array<Omit<UpdatableActionable, 'uuid'>> = [
+	const updateTests: Array<Omit<UpdatableActionable, 'globalID'>> = [
 		{ name: 'New name' },
 		{ description: 'New description' },
 		{ description: null },
@@ -86,11 +86,11 @@ describe('updateOneActionable()', () => {
 				const current = createdActionable;
 				expect(isActionable(current)).toBeTrue();
 
-				const data: UpdatableActionable = { ..._data, uuid: current.uuid };
+				const data: UpdatableActionable = { ..._data, globalID: current.globalID };
 				if (updatedFields.includes('userID')) {
 					// *NOTE: gravwell/gravwell#2318 nº 7
 					await expectAsync(updateOneActionable(data)).toBeRejected();
-					await expectAsync(getOneActionable(data.uuid)).toBeRejected();
+					await expectAsync(getOneActionable(data.globalID)).toBeRejected();
 					return;
 				}
 

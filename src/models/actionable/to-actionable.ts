@@ -14,7 +14,7 @@ import { RawActionable, RawActionableAction, RawActionableTimeVariable, RawActio
 import { RawActionableCommand } from './raw-actionable-command';
 
 export const toActionable = (raw: RawActionable): Actionable => ({
-	uuid: raw.GUID,
+	globalID: raw.GUID,
 	thingUUID: raw.ThingUUID,
 
 	userID: raw.UID.toString(),

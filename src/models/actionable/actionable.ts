@@ -10,7 +10,7 @@ import { NumericID, UUID } from '~/value-objects';
 import { ActionableCommand } from './actionable-command';
 
 export interface Actionable {
-	uuid: UUID;
+	globalID: UUID;
 	thingUUID: UUID;
 
 	userID: NumericID;
