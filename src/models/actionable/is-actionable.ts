@@ -84,9 +84,9 @@ export const isActionableCommand = (value: any): value is ActionableCommand => {
 			case 'template':
 				return isUUID(cmd.templateID);
 			case 'savedQuery':
-				return isUUID(cmd.queryUUID);
+				return isUUID(cmd.queryID);
 			case 'dashboard':
-				return isUUID(cmd.dashboardUUID) && (isString(cmd.dashboardVariable) || isNull(cmd.dashboardVariable));
+				return isUUID(cmd.dashboardID) && (isString(cmd.dashboardVariable) || isNull(cmd.dashboardVariable));
 			case 'url':
 				return (
 					isString(cmd.urlTemplate) &&

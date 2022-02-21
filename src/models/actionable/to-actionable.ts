@@ -56,9 +56,9 @@ export const toActionableCommand = (raw: RawActionableCommand): ActionableComman
 		case 'template':
 			return { type: 'template', templateID: raw.reference, templateVariable: raw.options?.variable ?? null };
 		case 'savedQuery':
-			return { type: 'savedQuery', queryUUID: raw.reference };
+			return { type: 'savedQuery', queryID: raw.reference };
 		case 'dashboard':
-			return { type: 'dashboard', dashboardUUID: raw.reference, dashboardVariable: raw.options?.variable ?? null };
+			return { type: 'dashboard', dashboardID: raw.reference, dashboardVariable: raw.options?.variable ?? null };
 		case 'url': {
 			const modalWidth = raw.options?.modalWidth;
 			return {
