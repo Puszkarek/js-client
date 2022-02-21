@@ -75,7 +75,7 @@ describe('updateOneActionable()', () => {
 		{ triggers: [{ pattern: /123/g, activatesOn: 'selection' }] },
 	];
 	updateTests.forEach((_data, testIndex) => {
-		const updatedFields = Object.keys(omit(_data, ['uuid']));
+		const updatedFields = Object.keys(omit(_data, ['globalID']));
 		const formatedUpdatedFields = updatedFields.join(', ');
 		const formatedTestIndex = (testIndex + 1).toString().padStart(2, '0');
 

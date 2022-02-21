@@ -67,7 +67,7 @@ describe('updateOneTemplate()', () => {
 	];
 	updateTests.forEach((_data, testIndex) => {
 		const nestedObjectKeys: Array<keyof typeof _data> = ['variables'];
-		const updatedFields: Array<string> = Object.keys(omit(_data, ['uuid'])).reduce<Array<string>>(
+		const updatedFields: Array<string> = Object.keys(omit(_data, ['globalID'])).reduce<Array<string>>(
 			(acc, key: string) => {
 				const toAdd: Array<string> = nestedObjectKeys.includes(key as any)
 					? Object.keys((_data as any)[key] as any).map(_k => `${key}.${_k}`)
