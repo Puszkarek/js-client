@@ -15,7 +15,7 @@ export const isTemplate = (value: any): value is Template => {
 		const t = <Template>value;
 		return (
 			isUUID(t.globalID) &&
-			isUUID(t.thingUUID) &&
+			isUUID(t.id) &&
 			isNumericID(t.userID) &&
 			t.groupIDs.every(isNumericID) &&
 			isString(t.name) &&

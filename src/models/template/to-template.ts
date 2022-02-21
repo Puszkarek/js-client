@@ -11,7 +11,7 @@ import { Template } from './template';
 
 export const toTemplate = (raw: RawTemplate): Template => ({
 	globalID: raw.GUID,
-	thingUUID: raw.ThingUUID,
+	id: raw.ThingUUID,
 	userID: raw.UID.toString(),
 	groupIDs: raw.GIDs?.map(id => id.toString()) ?? [],
 	name: raw.Name,

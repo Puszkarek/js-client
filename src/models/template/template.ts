@@ -10,7 +10,7 @@ import { NumericID, UUID } from '~/value-objects';
 
 export interface Template {
 	globalID: UUID;
-	thingUUID: UUID;
+	id: UUID;
 	userID: NumericID;
 	groupIDs: Array<NumericID>;
 	name: string;
