@@ -16,7 +16,7 @@ export const isActionable = (value: any): value is Actionable => {
 		const a = <Actionable>value;
 		return (
 			isUUID(a.globalID) &&
-			isUUID(a.thingUUID) &&
+			isUUID(a.id) &&
 			isNumericID(a.userID) &&
 			a.groupIDs.every(isNumericID) &&
 			isString(a.name) &&

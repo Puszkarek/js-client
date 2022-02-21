@@ -15,7 +15,7 @@ import { RawActionableCommand } from './raw-actionable-command';
 
 export const toActionable = (raw: RawActionable): Actionable => ({
 	globalID: raw.GUID,
-	thingUUID: raw.ThingUUID,
+	id: raw.ThingUUID,
 
 	userID: raw.UID.toString(),
 	groupIDs: raw.GIDs?.map(id => id.toString()) ?? [],

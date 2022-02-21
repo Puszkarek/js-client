@@ -11,7 +11,7 @@ import { ActionableCommand } from './actionable-command';
 
 export interface Actionable {
 	globalID: UUID;
-	thingUUID: UUID;
+	id: UUID;
 
 	userID: NumericID;
 	groupIDs: Array<NumericID>;
