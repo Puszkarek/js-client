@@ -82,7 +82,7 @@ export const isActionableCommand = (value: any): value is ActionableCommand => {
 			case 'query':
 				return isString(cmd.userQuery);
 			case 'template':
-				return isUUID(cmd.templateUUID);
+				return isUUID(cmd.templateID);
 			case 'savedQuery':
 				return isUUID(cmd.queryUUID);
 			case 'dashboard':

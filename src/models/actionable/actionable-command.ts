@@ -10,7 +10,7 @@ import { UUID } from '~/value-objects';
 
 export type ActionableCommand =
 	| { type: 'query'; userQuery: string }
-	| { type: 'template'; templateUUID: UUID; templateVariable: string | null }
+	| { type: 'template'; templateID: UUID; templateVariable: string | null }
 	| { type: 'savedQuery'; queryUUID: UUID }
 	| { type: 'dashboard'; dashboardUUID: UUID; dashboardVariable: string | null }
 	| {
@@ -34,7 +34,7 @@ export interface ActionableQueryCommand {
 
 export interface ActionableTemplateCommand {
 	type: 'template';
-	templateUUID: UUID;
+	templateID: UUID;
 }
 
 export interface ActionableSavedQueryCommand {

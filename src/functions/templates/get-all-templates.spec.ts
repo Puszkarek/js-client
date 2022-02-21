@@ -33,7 +33,7 @@ describe('getAllTemplates()', () => {
 
 	afterEach(async () => {
 		// Delete the created templates
-		const deletePs = createdTemplatesUUIDs.map(templateUUID => deleteOneTemplate(templateUUID));
+		const deletePs = createdTemplatesUUIDs.map(templateID => deleteOneTemplate(templateID));
 		await Promise.all(deletePs);
 	});
 
@@ -41,11 +41,11 @@ describe('getAllTemplates()', () => {
 		'Should return templates',
 		integrationTest(async () => {
 			const templates = await getAllTemplates();
-			const templateUUIDs = templates.map(a => a.globalID);
+			const templateIDs = templates.map(a => a.globalID);
 
 			expect(templates.every(isTemplate)).toBeTrue();
 			expect(templates.length).toBeGreaterThanOrEqual(createdTemplatesUUIDs.length);
-			for (const templateUUID of createdTemplatesUUIDs) expect(templateUUIDs).toContain(templateUUID);
+			for (const templateID of createdTemplatesUUIDs) expect(templateIDs).toContain(templateID);
 		}),
 	);
 });

@@ -54,7 +54,7 @@ export const toActionableCommand = (raw: RawActionableCommand): ActionableComman
 		case 'query':
 			return { type: 'query', userQuery: raw.reference };
 		case 'template':
-			return { type: 'template', templateUUID: raw.reference, templateVariable: raw.options?.variable ?? null };
+			return { type: 'template', templateID: raw.reference, templateVariable: raw.options?.variable ?? null };
 		case 'savedQuery':
 			return { type: 'savedQuery', queryUUID: raw.reference };
 		case 'dashboard':
