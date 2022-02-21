@@ -14,7 +14,7 @@ export const isPlaybook = (value: any): value is Playbook => {
 	try {
 		const p = <Playbook>value;
 		return (
-			isUUID(p.uuid) &&
+			isUUID(p.id) &&
 			isUUID(p.globalID) &&
 			isNumericID(p.userID) &&
 			p.groupIDs.every(isNumericID) &&

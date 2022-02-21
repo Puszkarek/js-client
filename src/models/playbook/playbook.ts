@@ -12,7 +12,7 @@ export interface Playbook {
 	/**
 	 * Unique identifier for the playbook, set at installation time.
 	 */
-	uuid: UUID;
+	id: UUID;
 
 	/**
 	 * Global identifier for the playbook. This is set by the original creator of
