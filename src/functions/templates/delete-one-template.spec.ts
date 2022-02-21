@@ -29,8 +29,8 @@ describe('deleteOneTemplate()', () => {
 			const template = await createOneTemplate(data);
 			expect(isTemplate(template)).toBeTrue();
 
-			await expectAsync(deleteOneTemplate(template.uuid)).toBeResolved();
-			await expectAsync(getOneTemplate(template.uuid)).toBeRejected();
+			await expectAsync(deleteOneTemplate(template.globalID)).toBeResolved();
+			await expectAsync(getOneTemplate(template.globalID)).toBeRejected();
 		}),
 	);
 });

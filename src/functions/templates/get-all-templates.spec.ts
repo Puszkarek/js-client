@@ -28,7 +28,7 @@ describe('getAllTemplates()', () => {
 			variables: [{ label: 'Variable', name: '__VAR__', required: true }],
 		};
 		const createdTemplatesPs = Array.from({ length: 2 }).map(() => createOneTemplate(data));
-		createdTemplatesUUIDs = (await Promise.all(createdTemplatesPs)).map(t => t.uuid);
+		createdTemplatesUUIDs = (await Promise.all(createdTemplatesPs)).map(t => t.globalID);
 	});
 
 	afterEach(async () => {
@@ -41,7 +41,7 @@ describe('getAllTemplates()', () => {
 		'Should return templates',
 		integrationTest(async () => {
 			const templates = await getAllTemplates();
-			const templateUUIDs = templates.map(a => a.uuid);
+			const templateUUIDs = templates.map(a => a.globalID);
 
 			expect(templates.every(isTemplate)).toBeTrue();
 			expect(templates.length).toBeGreaterThanOrEqual(createdTemplatesUUIDs.length);

@@ -35,7 +35,7 @@ describe('updateOneTemplate()', () => {
 	});
 
 	afterEach(async () => {
-		await deleteOneTemplate(createdTemplate.uuid).catch(() => undefined);
+		await deleteOneTemplate(createdTemplate.globalID).catch(() => undefined);
 	});
 
 	const testVariable: TemplateVariable = {
@@ -47,7 +47,7 @@ describe('updateOneTemplate()', () => {
 		description: '',
 	};
 
-	const updateTests: Array<Omit<UpdatableTemplate, 'uuid'>> = [
+	const updateTests: Array<Omit<UpdatableTemplate, 'globalID'>> = [
 		{ name: 'New name' },
 		{ description: 'New description' },
 		{ description: null },
@@ -85,7 +85,7 @@ describe('updateOneTemplate()', () => {
 				const current = createdTemplate;
 				expect(isTemplate(current)).toBeTrue();
 
-				const data: UpdatableTemplate = { ..._data, uuid: current.uuid };
+				const data: UpdatableTemplate = { ..._data, globalID: current.globalID };
 
 				const updated = await updateOneTemplate(data);
 				expect(isTemplate(updated)).toBeTrue();
