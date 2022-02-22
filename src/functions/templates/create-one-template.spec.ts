@@ -27,7 +27,7 @@ describe('createOneTemplate()', () => {
 			const template = await createOneTemplate(data);
 			expect(isTemplate(template)).toBeTrue();
 
-			await deleteOneTemplate(template.globalID);
+			await deleteOneTemplate(template.id);
 		}),
 	);
 });
