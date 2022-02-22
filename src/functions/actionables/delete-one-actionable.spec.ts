@@ -30,8 +30,8 @@ describe('deleteOneActionable()', () => {
 			const actionable = await createOneActionable(data);
 			expect(isActionable(actionable)).toBeTrue();
 
-			await expectAsync(deleteOneActionable(actionable.globalID)).toBeResolved();
-			await expectAsync(getOneActionable(actionable.globalID)).toBeRejected();
+			await expectAsync(deleteOneActionable(actionable.id)).toBeResolved();
+			await expectAsync(getOneActionable(actionable.id)).toBeRejected();
 		}),
 	);
 });
