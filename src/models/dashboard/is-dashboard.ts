@@ -7,17 +7,17 @@
  **************************************************************************/
 
 import { isArray, isBoolean, isDate, isNull, isNumber, isString, isUndefined } from 'lodash';
-import { isNumericID, isUUID } from '~/value-objects';
 import {
-	Version,
-	DashboardLiveUpdate,
-	isVersion,
-	isTimeframe,
-	DashboardTile,
-	DashboardSearch,
 	Dashboard,
+	DashboardLiveUpdate,
 	DashboardRendererOptions,
+	DashboardSearch,
+	DashboardTile,
+	isTimeframe,
+	isVersion,
+	Version,
 } from '~/models';
+import { isNumericID, isUUID } from '~/value-objects';
 
 export const isDashboard = (value: unknown): value is Dashboard => {
 	try {
