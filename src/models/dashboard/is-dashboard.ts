@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { isArray, isBoolean, isDate, isNull, isNumber, isString, isUndefined } from 'lodash';
+import { isArray, isBoolean, isDate, isNil, isNull, isNumber, isString, isUndefined } from 'lodash';
 import {
 	Dashboard,
 	DashboardLiveUpdate,
@@ -15,7 +15,6 @@ import {
 	DashboardTile,
 	isTimeframe,
 	isVersion,
-	Version,
 } from '~/models';
 import { isNumericID, isUUID } from '~/value-objects';
 
@@ -23,39 +22,38 @@ export const isDashboard = (value: unknown): value is Dashboard => {
 	try {
 		const d = <Dashboard>value;
 		return (
-			(isNumericID(d.id) &&
-				isUUID(d.globalID) &&
-				isNumericID(d.userID) &&
-				isArray(d.groupIDs) &&
-				d.groupIDs.every(isNumber) &&
-				isString(d.name) &&
-				(isNull(d.description) || isString(d.description)) &&
-				isArray(d.labels) &&
-				d.labels.every(isString) &&
-				isDate(d.creationDate) &&
-				isDate(d.lastUpdateDate) &&
-				isDate(d.lastMainUpdateDate) &&
-				isVersion(d.version) &&
-				isBoolean(d.updateOnZoom) &&
-				isDashboardLiveUpdate(d.liveUpdate) &&
-				isTimeframe(d.timeframe) &&
-				isArray(d.searches) &&
-				d.searches.every(isDashboardSearch) &&
-				isArray(d.tiles)) ||
-			(d.tiles.every(isDashboardTile) &&
-				(isNull(d.gridOptions.gutter) || isNumber(d.gridOptions.gutter)) &&
-				(isNull(d.gridOptions.margin) || isNumber(d.gridOptions.margin)))
+			isNumericID(d.id) &&
+			isUUID(d.globalID) &&
+			isNumericID(d.userID) &&
+			isArray(d.groupIDs) &&
+			d.groupIDs.every(isNumber) &&
+			isString(d.name) &&
+			(isNull(d.description) || isString(d.description)) &&
+			isArray(d.labels) &&
+			d.labels.every(isString) &&
+			isDate(d.creationDate) &&
+			isDate(d.lastUpdateDate) &&
+			isDate(d.lastMainUpdateDate) &&
+			isVersion(d.version) &&
+			isBoolean(d.updateOnZoom) &&
+			isDashboardLiveUpdate(d.liveUpdate) &&
+			isTimeframe(d.timeframe) &&
+			isArray(d.searches) &&
+			d.searches.every(isDashboardSearch) &&
+			isArray(d.tiles) &&
+			d.tiles.every(isDashboardTile) &&
+			(isNull(d.gridOptions.gutter) || isNumber(d.gridOptions.gutter)) &&
+			(isNull(d.gridOptions.margin) || isNumber(d.gridOptions.margin))
 		);
 	} catch {
 		return false;
 	}
 };
 
-export const isDashboardLiveUpdate = (value: unknown): value is Version => {
+export const isDashboardLiveUpdate = (value: unknown): value is DashboardLiveUpdate => {
 	try {
 		const d = <DashboardLiveUpdate>value;
-
-		return isBoolean(d.enabled) && (isNumber(d.interval) || isUndefined(d.interval) || isNull(d.interval));
+		return (d.enabled === true && isNumber(d.interval)) || (d.enabled === false && isNil(d.interval));
 	} catch {
 		return false;
 	}
@@ -115,8 +113,7 @@ export const isDashboardRendererOptions = (value: unknown): value is DashboardRe
 			(isUndefined(d.values) ||
 				((isUndefined(d.values.Orientation) || isString(d.values.Orientation)) &&
 					(isUndefined(d.values.Smoothing) || isString(d.values.Smoothing)) &&
-					isUndefined(d.values.columns)) ||
-				(isArray(d.values.columns) && d.values.columns.every(isString)))
+					(isUndefined(d.values.columns) || (isArray(d.values.columns) && d.values.columns.every(isString)))))
 		);
 	} catch {
 		return false;
