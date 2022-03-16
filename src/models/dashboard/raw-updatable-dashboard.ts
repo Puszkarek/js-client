@@ -43,9 +43,9 @@ export interface RawUpdatableDashboard {
 			id: RawNumericID;
 			title: string;
 			renderer: string;
-			span: { col: number; row: number; x: number; y: number };
+			span: { col: number; row: number; x?: number; y?: number };
 			searchesIndex: number;
-			rendererOptions: DashboardRendererOptions;
+			rendererOptions?: DashboardRendererOptions;
 		}>;
 		timeframe: RawTimeframe;
 		version?: number;

@@ -19,14 +19,14 @@ export interface DashboardTile {
 	searchIndex: number;
 
 	renderer: string;
-	rendererOptions: DashboardRendererOptions;
+	rendererOptions?: DashboardRendererOptions;
 
 	dimensions: {
 		columns: number;
 		rows: number;
 	};
 	position: {
-		x: number;
-		y: number;
+		x?: number;
+		y?: number;
 	};
 }

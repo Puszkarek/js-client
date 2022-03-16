@@ -6,7 +6,26 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { PartialProps } from '~/functions/utils';
-import { DashboardTile } from './dashboard-tile';
+import { DashboardRendererOptions } from './dashboard-renderer-options';
 
-export type CreatableDashboardTile = PartialProps<Omit<DashboardTile, 'id'>, 'rendererOptions'>;
+export type CreatableDashboardTile = {
+	title: string;
+
+	/**
+	 * Index for the related search in Dashboard.searches.
+	 */
+	searchIndex: number;
+
+	renderer: string;
+	rendererOptions?: DashboardRendererOptions;
+
+	dimensions: {
+		columns: number;
+		rows: number;
+	};
+	// Position is required only for creation
+	position: {
+		x: number;
+		y: number;
+	};
+};
