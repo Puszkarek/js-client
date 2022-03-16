@@ -26,6 +26,7 @@ export interface DashboardTile {
 		rows: number;
 	};
 	position: {
+		/**	Old dashboards has optionally positions, so for now we need to keep that, but we will keep required for creation to avoid legacy dashboards */
 		x?: number;
 		y?: number;
 	};
