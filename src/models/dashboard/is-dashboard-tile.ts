@@ -19,9 +19,11 @@ export const isDashboardTile = (value: unknown): value is DashboardTile => {
 			isString(dt.title) &&
 			isNumber(dt.searchIndex) &&
 			isString(dt.renderer) &&
+			/**	Due to the old dashboards we may not have `.rendererOptions` defined */
 			(isUndefined(dt.rendererOptions) || isDashboardRendererOptions(dt.rendererOptions)) &&
 			isNumber(dt.dimensions.columns) &&
 			isNumber(dt.dimensions.rows) &&
+			/**	Due to the old dashboards we may not have `x` and `y` defined */
 			(isUndefined(dt.position.x) || isNumber(dt.position.x)) &&
 			(isUndefined(dt.position.y) || isNumber(dt.position.y))
 		);

@@ -19,14 +19,16 @@ export interface DashboardTile {
 	searchIndex: number;
 
 	renderer: string;
+
+	/**	Due to the old dashboards we may not have `.rendererOptions` defined */
 	rendererOptions?: DashboardRendererOptions;
 
 	dimensions: {
 		columns: number;
 		rows: number;
 	};
+	/**	Due to the old dashboards we may not have `x` and `y` defined */
 	position: {
-		/**	Old dashboards has optionally positions, so for now we need to keep that, but we will keep required for creation to avoid legacy dashboards */
 		x?: number;
 		y?: number;
 	};
