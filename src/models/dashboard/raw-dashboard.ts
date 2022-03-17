@@ -33,30 +33,34 @@ export interface RawDashboard {
 			margin?: string | number | null; // string is a number
 		};
 
-		searches: Array<{
-			alias: string | null;
-			timeframe?: {} | RawTimeframe;
-			query?: string;
-			searchID?: RawNumericID;
-			color?: string;
-			reference?: {
-				id: RawUUID;
-				type: 'template' | 'savedQuery' | 'scheduledSearch';
-				extras?: {
-					defaultValue: string | null;
-				};
-			};
-		}>;
-		tiles: Array<{
-			id: RawNumericID;
-			title: string;
-			renderer: string;
-			span: { col: number; row: number; x: number; y: number };
-			searchesIndex: number;
-			rendererOptions: DashboardRendererOptions;
-		}>;
+		searches: Array<RawDashboardSearch>;
+		tiles: Array<RawDashboardTile>;
 		timeframe: RawTimeframe;
 		version?: 1 | 2;
 		lastDataUpdate?: string; // Timestamp
 	};
 }
+
+export type RawDashboardSearch = {
+	alias: string | null;
+	timeframe?: {} | RawTimeframe;
+	query?: string;
+	searchID?: RawNumericID;
+	color?: string;
+	reference?: {
+		id: RawUUID;
+		type: 'template' | 'savedQuery' | 'scheduledSearch';
+		extras?: {
+			defaultValue: string | null;
+		};
+	};
+};
+
+export type RawDashboardTile = {
+	id: RawNumericID;
+	title: string;
+	renderer: string;
+	span: { col: number; row: number; x?: number; y?: number };
+	searchesIndex: number;
+	rendererOptions?: DashboardRendererOptions;
+};
