@@ -18,11 +18,10 @@ export interface BaseDashboardSearch {
 }
 
 export type SearchesType =
-	| { type: 'query'; query: string }
+	// optional is just for compatibility with old versions of Dashboard
+	| { type?: 'query'; query: string }
 	| { type: 'template'; templateID: UUID }
 	| { type: 'savedQuery'; savedQueryID: UUID }
-	| { type: 'scheduledSearch'; scheduledSearchID: UUID }
-	// Just for compatibility with old versions of Dashboard
-	| { type: undefined };
+	| { type: 'scheduledSearch'; scheduledSearchID: UUID };
 
 export type DashboardSearch = BaseDashboardSearch & SearchesType;
