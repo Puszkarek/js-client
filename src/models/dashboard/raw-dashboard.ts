@@ -8,7 +8,8 @@
 
 import { RawNumericID, RawUUID } from '~/value-objects';
 import { RawTimeframe } from '../timeframe';
-import { DashboardRendererOptions } from './dashboard-renderer-options';
+import { RawDashboardSearch } from './raw-dashboard-search';
+import { RawDashboardTile } from './raw-dashboard-tile';
 
 export interface RawDashboard {
 	ID: RawNumericID;
@@ -40,27 +41,3 @@ export interface RawDashboard {
 		lastDataUpdate?: string; // Timestamp
 	};
 }
-
-export type RawDashboardSearch = {
-	alias: string | null;
-	timeframe?: {} | RawTimeframe;
-	query?: string;
-	searchID?: RawNumericID;
-	color?: string;
-	reference?: {
-		id: RawUUID;
-		type: 'template' | 'savedQuery' | 'scheduledSearch';
-		extras?: {
-			defaultValue: string | null;
-		};
-	};
-};
-
-export type RawDashboardTile = {
-	id: RawNumericID;
-	title: string;
-	renderer: string;
-	span: { col: number; row: number; x?: number; y?: number };
-	searchesIndex: number;
-	rendererOptions?: DashboardRendererOptions;
-};
