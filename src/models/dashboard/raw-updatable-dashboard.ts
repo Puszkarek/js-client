@@ -43,8 +43,10 @@ export interface RawUpdatableDashboard {
 			id: RawNumericID;
 			title: string;
 			renderer: string;
+			/**	Due to the old dashboards we may not have `x` and `y` defined */
 			span: { col: number; row: number; x?: number; y?: number };
 			searchesIndex: number;
+			/**	Due to the old dashboards we may not have `.rendererOptions` defined */
 			rendererOptions?: DashboardRendererOptions;
 		}>;
 		timeframe: RawTimeframe;
