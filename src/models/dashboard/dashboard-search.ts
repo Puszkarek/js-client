@@ -21,6 +21,8 @@ export type SearchesType =
 	| { type: 'query'; query: string }
 	| { type: 'template'; templateID: UUID }
 	| { type: 'savedQuery'; savedQueryID: UUID }
-	| { type: 'scheduledSearch'; scheduledSearchID: UUID };
+	| { type: 'scheduledSearch'; scheduledSearchID: UUID }
+	// Just for compatibility with old versions of Dashboard
+	| { type: undefined };
 
 export type DashboardSearch = BaseDashboardSearch & SearchesType;
