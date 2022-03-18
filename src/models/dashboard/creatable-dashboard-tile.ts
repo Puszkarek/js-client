@@ -17,12 +17,13 @@ export type CreatableDashboardTile = {
 	searchIndex: number;
 
 	renderer: string;
-	rendererOptions?: DashboardRendererOptions;
+	rendererOptions?: DashboardRendererOptions | null;
 
 	dimensions: {
 		columns: number;
 		rows: number;
 	};
+	
 	/** `x` and `y` is only mandatory on creation */
 	position: {
 		x: number;

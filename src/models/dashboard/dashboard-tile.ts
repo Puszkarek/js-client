@@ -21,15 +21,16 @@ export interface DashboardTile {
 	renderer: string;
 
 	/**	Due to the old dashboards we may not have `.rendererOptions` defined */
-	rendererOptions?: DashboardRendererOptions;
+	rendererOptions: DashboardRendererOptions | null;
 
 	dimensions: {
 		columns: number;
 		rows: number;
 	};
+
 	/**	Due to the old dashboards we may not have `x` and `y` defined */
 	position: {
-		x?: number;
-		y?: number;
+		x: number | null;
+		y: number | null;
 	};
 }

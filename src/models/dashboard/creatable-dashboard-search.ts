@@ -6,6 +6,6 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { BaseDashboardSearch, SearchesType } from './dashboard-search';
+import { BaseDashboardSearch, TypedDashboardSearch } from './dashboard-search';
 
-export type CreatableDashboardSearch = Partial<BaseDashboardSearch> & SearchesType;
+export type CreatableDashboardSearch = Partial<BaseDashboardSearch> & TypedDashboardSearch;
