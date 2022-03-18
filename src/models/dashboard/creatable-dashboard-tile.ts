@@ -23,7 +23,7 @@ export type CreatableDashboardTile = {
 		columns: number;
 		rows: number;
 	};
-	
+
 	/** `x` and `y` is only mandatory on creation */
 	position: {
 		x: number;
