@@ -16,13 +16,11 @@ export const toRawCreatableDashboardSearch = (data: CreatableDashboardSearch): R
 	omitUndefinedShallow({
 		alias: data.name ?? null,
 		timeframe: data.timeframeOverride ? toRawTimeframe(data.timeframeOverride) : undefined,
-		// TODO: data.type === undefined is just for legacy compatibility, remove that when we stop supporting
-		query: data.type === 'query' || data.type === undefined ? data.query : undefined,
+		query: data.type === 'query' ? data.query : undefined,
 		searchID: isNumericID(data.cachedSearchID) ? toRawNumericID(data.cachedSearchID) : undefined,
 		color: data.color,
 		reference: ((): RawCreatableDashboardSearch['reference'] => {
-			// TODO: data.type === undefined is just for legacy compatibility, remove that when we stop supporting
-			if (data.type === 'query' || data.type === undefined) return undefined;
+			if (data.type === 'query') return undefined;
 
 			const extras = { defaultValue: data.variablePreviewValue ?? null };
 			switch (data.type) {
