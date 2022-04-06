@@ -7,7 +7,7 @@
  **************************************************************************/
 
 import { map, Observable, startWith, tap } from 'rxjs';
-import { SearchFilter } from '../../../dist/browsers/models/search/search-filter';
+import { SearchFilter } from '~/main';
 import { RequiredSearchFilter } from './subscribe-to-one-search/helpers';
 
 export type DateRange = { start: Date; end: Date };
