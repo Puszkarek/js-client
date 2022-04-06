@@ -229,28 +229,24 @@ export const makeAttachToOneSearch = (context: APIContext) => {
 		const filter$ = _filter$.asObservable().pipe(
 			startWith<SearchFilter>(initialFilter),
 			map(
-				(curr): RequiredSearchFilter => {
-					const newData = {
-						entriesOffset: {
-							index: curr.entriesOffset?.index ?? prev?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
-							count: curr.entriesOffset?.count ?? prev?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
-						},
-						dateRange: {
-							start: defaultStart,
-							end: defaultEnd,
-							...expandDateRange(initialFilter.dateRange),
-							...expandDateRange(prev?.dateRange),
-							...expandDateRange(curr.dateRange),
-						},
-						desiredGranularity: curr.desiredGranularity ?? prev?.desiredGranularity ?? initialFilter.desiredGranularity,
-						overviewGranularity:
-							curr.overviewGranularity ?? prev?.overviewGranularity ?? initialFilter.overviewGranularity,
-						zoomGranularity: curr.zoomGranularity ?? prev?.zoomGranularity ?? initialFilter.zoomGranularity,
-						elementFilters: initialFilter.elementFilters,
-					};
-					console.log('new dateRange', newData.dateRange.start);
-					return newData;
-				},
+				(curr): RequiredSearchFilter => ({
+					entriesOffset: {
+						index: curr.entriesOffset?.index ?? prev?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
+						count: curr.entriesOffset?.count ?? prev?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
+					},
+					dateRange: {
+						start: defaultStart,
+						end: defaultEnd,
+						...expandDateRange(initialFilter.dateRange),
+						...expandDateRange(prev?.dateRange),
+						...expandDateRange(curr.dateRange),
+					},
+					desiredGranularity: curr.desiredGranularity ?? prev?.desiredGranularity ?? initialFilter.desiredGranularity,
+					overviewGranularity:
+						curr.overviewGranularity ?? prev?.overviewGranularity ?? initialFilter.overviewGranularity,
+					zoomGranularity: curr.zoomGranularity ?? prev?.zoomGranularity ?? initialFilter.zoomGranularity,
+					elementFilters: initialFilter.elementFilters,
+				}),
 			),
 			tap(filter => (prev = filter)),
 
