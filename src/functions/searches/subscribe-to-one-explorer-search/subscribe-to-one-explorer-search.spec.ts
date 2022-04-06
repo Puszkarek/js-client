@@ -10,7 +10,7 @@ import * as base64 from 'base-64';
 import { addMinutes, isEqual as datesAreEqual, subMinutes } from 'date-fns';
 import { isArray, isUndefined, sum, zip } from 'lodash';
 import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
-import { last, map, takeWhile, toArray, take } from 'rxjs/operators';
+import { last, map, take, takeWhile, toArray } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { makeCreateOneAutoExtractor } from '~/functions/auto-extractors';
 import { DataExplorerEntry, ElementFilter, isDataExplorerEntry, SearchFilter } from '~/models';
