@@ -224,29 +224,35 @@ export const makeAttachToOneSearch = (context: APIContext) => {
 			if (closed) return undefined;
 			_filter$.next(filter ?? initialFilter);
 		};
+		// Probably the ./subscribe-to-one-explorer-search.ts and another filters needs that fix too
+		let prev: SearchFilter | null;
 		const filter$ = _filter$.asObservable().pipe(
 			startWith<SearchFilter>(initialFilter),
-			bufferCount(2, 1),
 			map(
-				([prev, curr]): RequiredSearchFilter => ({
-					entriesOffset: {
-						index: curr.entriesOffset?.index ?? prev.entriesOffset?.index ?? initialFilter.entriesOffset.index,
-						count: curr.entriesOffset?.count ?? prev.entriesOffset?.count ?? initialFilter.entriesOffset.count,
-					},
-					dateRange: {
-						start: defaultStart,
-						end: defaultEnd,
-						...expandDateRange(initialFilter.dateRange),
-						...expandDateRange(prev.dateRange),
-						...expandDateRange(curr.dateRange),
-					},
-					desiredGranularity: curr.desiredGranularity ?? prev.desiredGranularity ?? initialFilter.desiredGranularity,
-					overviewGranularity:
-						curr.overviewGranularity ?? prev.overviewGranularity ?? initialFilter.overviewGranularity,
-					zoomGranularity: curr.zoomGranularity ?? prev.zoomGranularity ?? initialFilter.zoomGranularity,
-					elementFilters: initialFilter.elementFilters,
-				}),
+				(curr): RequiredSearchFilter => {
+					const newData = {
+						entriesOffset: {
+							index: curr.entriesOffset?.index ?? prev?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
+							count: curr.entriesOffset?.count ?? prev?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
+						},
+						dateRange: {
+							start: defaultStart,
+							end: defaultEnd,
+							...expandDateRange(initialFilter.dateRange),
+							...expandDateRange(prev?.dateRange),
+							...expandDateRange(curr.dateRange),
+						},
+						desiredGranularity: curr.desiredGranularity ?? prev?.desiredGranularity ?? initialFilter.desiredGranularity,
+						overviewGranularity:
+							curr.overviewGranularity ?? prev?.overviewGranularity ?? initialFilter.overviewGranularity,
+						zoomGranularity: curr.zoomGranularity ?? prev?.zoomGranularity ?? initialFilter.zoomGranularity,
+						elementFilters: initialFilter.elementFilters,
+					};
+					console.log('new dateRange', newData.dateRange.start);
+					return newData;
+				},
 			),
+			tap(filter => (prev = filter)),
 
 			// Complete when/if the user calls .close()
 			takeUntil(close$),
