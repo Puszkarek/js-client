@@ -293,45 +293,6 @@ describe('attachToOneSearch()', () => {
 	);
 
 	it(
-		'Should keep the dateRange when update the filter multiple times',
-		integrationTest(async () => {
-			const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
-			const attachToOneSearch = makeAttachToOneSearch(TEST_BASE_API_CONTEXT);
-
-			const query = `tag=*`;
-			const initialFilter: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
-
-			const searchCreated = await subscribeToOneSearch(query, { filter: initialFilter });
-			const search = await attachToOneSearch(searchCreated.searchID, { filter: initialFilter });
-
-			////
-			// Update property
-			////
-			const updatedDateRange = { dateRange: { start: start, end: addMinutes(end, 10000) } };
-			const entriesUpdatedFilter = { entriesOffset: initialFilter.entriesOffset };
-
-			search.setFilter(updatedDateRange);
-
-			// Update twice times to clear previous cache
-			search.setFilter(entriesUpdatedFilter);
-			search.setFilter(entriesUpdatedFilter);
-
-			////
-			// Check filter
-			////
-
-			// TODO: may have a way to improve that
-			// Should emit 4 times before complete, 1 for initial stats and 3 for the updates
-			const stats = await lastValueFrom(search.stats$.pipe(take(4)));
-
-			expect(stats.filter)
-				.withContext(`The filter should be equal to the one used, plus the default values for undefined properties`)
-				.toPartiallyEqual(updatedDateRange);
-		}),
-		25000,
-	);
-
-	it(
 		'Should treat multiple searches with the same query independently',
 		integrationTest(async () => {
 			// Number of multiple searches to create at the same time
@@ -1025,6 +986,46 @@ describe('attachToOneSearch()', () => {
 				expect(statsOverview.frequencyStats.length)
 					.withContext('statsZoom should use the default granularity')
 					.toEqual(overviewGranularity);
+			}),
+			25000,
+		);
+
+		// TODO: remove fit
+		fit(
+			'Should keep the dateRange when update the filter multiple times',
+			integrationTest(async () => {
+				const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
+				const attachToOneSearch = makeAttachToOneSearch(TEST_BASE_API_CONTEXT);
+
+				const query = `tag=*`;
+				const initialFilter: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
+
+				const searchCreated = await subscribeToOneSearch(query, { filter: initialFilter });
+				const search = await attachToOneSearch(searchCreated.searchID, { filter: initialFilter });
+
+				////
+				// Update property
+				////
+				const updatedDateRange = { dateRange: { start: start, end: addMinutes(end, 10000) } };
+				const entriesUpdatedFilter = { entriesOffset: initialFilter.entriesOffset };
+
+				search.setFilter(updatedDateRange);
+
+				// Update twice times to clear previous cache
+				search.setFilter(entriesUpdatedFilter);
+				search.setFilter(entriesUpdatedFilter);
+
+				////
+				// Check filter
+				////
+
+				// TODO: may have a way to improve that
+				// Should emit 4 times before complete, 1 for initial stats and 3 for the updates
+				const stats = await lastValueFrom(search.stats$.pipe(take(4)));
+
+				expect(stats.filter)
+					.withContext(`The filter should be equal to the one used, plus the default values for undefined properties`)
+					.toPartiallyEqual(updatedDateRange);
 			}),
 			25000,
 		);
