@@ -10,7 +10,7 @@ import * as base64 from 'base-64';
 import { addMinutes, subMinutes } from 'date-fns';
 import { isUndefined, last as lastElt, range as rangeLeft, sum, zip } from 'lodash';
 import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
-import { map, take, takeWhile, toArray } from 'rxjs/operators';
+import { map, takeWhile, toArray } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { makeCreateOneMacro, makeDeleteOneMacro } from '~/functions/macros';
 import { SearchFilter } from '~/models';
@@ -19,6 +19,7 @@ import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from 
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
 import { makeSubscribeToOneSearch } from '../subscribe-to-one-search';
+import { keepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeAttachToOneSearch } from './attach-to-one-search';
 
 interface Entry {
@@ -990,44 +991,6 @@ describe('attachToOneSearch()', () => {
 			25000,
 		);
 
-		// TODO: remove fit
-		fit(
-			'Should keep the dateRange when update the filter multiple times',
-			integrationTest(async () => {
-				const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
-				const attachToOneSearch = makeAttachToOneSearch(TEST_BASE_API_CONTEXT);
-
-				const query = `tag=*`;
-				const initialFilter: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
-
-				const searchCreated = await subscribeToOneSearch(query, { filter: initialFilter });
-				const search = await attachToOneSearch(searchCreated.searchID, { filter: initialFilter });
-
-				////
-				// Update property
-				////
-				const updatedDateRange = { dateRange: { start: start, end: addMinutes(end, 10000) } };
-				const entriesUpdatedFilter = { entriesOffset: initialFilter.entriesOffset };
-
-				search.setFilter(updatedDateRange);
-
-				// Update twice times to clear previous cache
-				search.setFilter(entriesUpdatedFilter);
-				search.setFilter(entriesUpdatedFilter);
-
-				////
-				// Check filter
-				////
-
-				// TODO: may have a way to improve that
-				// Should emit 4 times before complete, 1 for initial stats and 3 for the updates
-				const stats = await lastValueFrom(search.stats$.pipe(take(4)));
-
-				expect(stats.filter)
-					.withContext(`The filter should be equal to the one used, plus the default values for undefined properties`)
-					.toPartiallyEqual(updatedDateRange);
-			}),
-			25000,
-		);
+		keepDataRangeTest({ start, end, count });
 	});
 });
