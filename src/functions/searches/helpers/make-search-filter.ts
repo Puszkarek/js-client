@@ -43,29 +43,28 @@ export const makeSearchFilterUpdate = ({
 		return dateRange ?? {};
 	};
 
-	// TODO: remove any
-	const searchFilter$: any = filter$.pipe(
+	const searchFilter$: Observable<RequiredSearchFilter> = filter$.pipe(
 		startWith<SearchFilter>(initialFilter),
-		scan((prev, curr) => {
-			console.log({ prev, curr });
+		scan((acc, curr) => {
+			console.log({ prev: acc, curr });
 			return {
 				entriesOffset: {
-					index: curr.entriesOffset?.index ?? prev?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
-					count: curr.entriesOffset?.count ?? prev?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
+					index: curr.entriesOffset?.index ?? acc?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
+					count: curr.entriesOffset?.count ?? acc?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
 				},
 				dateRange: {
 					start: defaultValues.dateStart,
 					end: defaultValues.dateEnd,
 					...expandDateRange(initialFilter.dateRange),
-					...expandDateRange(prev?.dateRange),
+					...expandDateRange(acc?.dateRange),
 					...expandDateRange(curr.dateRange),
 				},
-				desiredGranularity: curr.desiredGranularity ?? prev?.desiredGranularity ?? initialFilter.desiredGranularity,
-				overviewGranularity: curr.overviewGranularity ?? prev?.overviewGranularity ?? initialFilter.overviewGranularity,
-				zoomGranularity: curr.zoomGranularity ?? prev?.zoomGranularity ?? initialFilter.zoomGranularity,
+				desiredGranularity: curr.desiredGranularity ?? acc?.desiredGranularity ?? initialFilter.desiredGranularity,
+				overviewGranularity: curr.overviewGranularity ?? acc?.overviewGranularity ?? initialFilter.overviewGranularity,
+				zoomGranularity: curr.zoomGranularity ?? acc?.zoomGranularity ?? initialFilter.zoomGranularity,
 				elementFilters: initialFilter.elementFilters,
 			};
-		}),
+		}, initialFilter),
 	);
 
 	return searchFilter$;
