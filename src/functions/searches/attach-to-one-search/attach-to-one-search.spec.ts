@@ -540,6 +540,9 @@ describe('attachToOneSearch()', () => {
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
+
+				await sleep(100);
+
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
 					.toEqual(count);
@@ -597,6 +600,8 @@ describe('attachToOneSearch()', () => {
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
+
+				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -697,6 +702,8 @@ describe('attachToOneSearch()', () => {
 					firstValueFrom(search.statsZoom$),
 				]);
 
+				await sleep(100);
+
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
 					.toEqual(count);
@@ -770,6 +777,8 @@ describe('attachToOneSearch()', () => {
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
+
+				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -851,6 +860,8 @@ describe('attachToOneSearch()', () => {
 					firstValueFrom(search.statsZoom$),
 				]);
 
+				await sleep(100);
+
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
 					.toEqual(count);
@@ -931,6 +942,9 @@ describe('attachToOneSearch()', () => {
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
+
+				await sleep(100);
+
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
 					.toEqual(count);
