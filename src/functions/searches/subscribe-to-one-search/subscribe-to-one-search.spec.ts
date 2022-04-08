@@ -967,6 +967,8 @@ describe('subscribeToOneSearch()', () => {
 				};
 				search.setFilter(filter2);
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -1048,6 +1050,8 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
+
+				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
