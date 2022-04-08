@@ -220,7 +220,7 @@ export const makeAttachToOneSearch = (context: APIContext) => {
 			_filter$.next(filter ?? initialFilter);
 		};
 
-		const searchFilter$ = makeSearchFilterUpdate({
+		const filter$ = makeSearchFilterUpdate({
 			filter$: _filter$.asObservable(),
 			initialFilter: initialFilter,
 			previewDateRange: previewDateRange,
@@ -228,9 +228,7 @@ export const makeAttachToOneSearch = (context: APIContext) => {
 				dateStart: defaultStart,
 				dateEnd: defaultEnd,
 			},
-		});
-
-		const filter$ = searchFilter$.pipe(
+		}).pipe(
 			// Complete when/if the user calls .close()
 			takeUntil(close$),
 		);
