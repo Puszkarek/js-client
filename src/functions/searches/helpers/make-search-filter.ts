@@ -45,9 +45,8 @@ export const makeSearchFilterUpdate = ({
 
 	const searchFilter$: Observable<RequiredSearchFilter> = filter$.pipe(
 		startWith<SearchFilter>(initialFilter),
-		scan((acc, curr) => {
-			console.log({ prev: acc, curr });
-			return {
+		scan(
+			(acc, curr) => ({
 				entriesOffset: {
 					index: curr.entriesOffset?.index ?? acc?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
 					count: curr.entriesOffset?.count ?? acc?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
@@ -63,8 +62,9 @@ export const makeSearchFilterUpdate = ({
 				overviewGranularity: curr.overviewGranularity ?? acc?.overviewGranularity ?? initialFilter.overviewGranularity,
 				zoomGranularity: curr.zoomGranularity ?? acc?.zoomGranularity ?? initialFilter.zoomGranularity,
 				elementFilters: initialFilter.elementFilters,
-			};
-		}, initialFilter),
+			}),
+			initialFilter,
+		),
 	);
 
 	return searchFilter$;
