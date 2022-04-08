@@ -18,7 +18,7 @@ import { RawSearchEntries, TextSearchEntries } from '~/models/search/search-entr
 import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from '~/tests';
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
-import { makeKeepDataRangeTest } from '../tests';
+import { makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeSubscribeToOneSearch } from './subscribe-to-one-search';
 
 interface Entry {
