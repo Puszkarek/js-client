@@ -18,7 +18,7 @@ import { RawSearchEntries, TextSearchEntries } from '~/models/search/search-entr
 import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from '~/tests';
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
-import { keepDataRangeTest } from '../tests';
+import { makeKeepDataRangeTest } from '../tests';
 import { makeSubscribeToOneSearch } from './subscribe-to-one-search';
 import { SearchSubscription } from '../../../../dist/browsers/models/search/search-subscription';
 
@@ -1145,17 +1145,23 @@ describe('subscribeToOneSearch()', () => {
 			25000,
 		);
 
-		keepDataRangeTest({
-			start,
-			end,
-			count,
-			createSearch: async (initialFilter: SearchFilter): Promise<SearchSubscription> => {
-				const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
+		it(
+			'Should keep the dateRange when update the filter multiple times',
+			integrationTest(
+				makeKeepDataRangeTest({
+					start,
+					end,
+					count,
+					createSearch: async (initialFilter: SearchFilter): Promise<SearchSubscription> => {
+						const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
 
-				const query = `tag=*`;
+						const query = `tag=*`;
 
-				return await subscribeToOneSearch(query, { filter: initialFilter });
-			},
-		});
+						return await subscribeToOneSearch(query, { filter: initialFilter });
+					},
+				}),
+			),
+			25000,
+		);
 	});
 });
