@@ -21,7 +21,6 @@ import { makeGetAllTags } from '../../tags/get-all-tags';
 import { makeSubscribeToOneSearch } from '../subscribe-to-one-search';
 import { keepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeAttachToOneSearch } from './attach-to-one-search';
-import { SearchSubscription } from '../../../../dist/browsers/models/search/search-subscription';
 
 interface Entry {
 	timestamp: string;
