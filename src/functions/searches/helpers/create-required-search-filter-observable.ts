@@ -26,7 +26,8 @@ export type MakeSearchFilterProps = {
  * Creates the necessary properties to control the filter of a search
  *
  * @param initialSettings.filter$ Observable that will receives the properties of search to be updated
- * @param initialSettings.initialFilter Date range used on preview
+ * @param initialSettings.initialFilter First filter that will be emitted by the source
+ * @param initialSettings.previewDateRange Date range used on preview
  * @param initialSettings.defaultValues Values used in the lack of a initial filter value
  *
  *
