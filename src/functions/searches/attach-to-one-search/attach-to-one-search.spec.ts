@@ -991,8 +991,7 @@ describe('attachToOneSearch()', () => {
 			25000,
 		);
 
-		// TODO: remove focus
-		fit(
+		it(
 			'Should keep the dateRange when update the filter multiple times',
 			integrationTest(
 				makeKeepDataRangeTest({
