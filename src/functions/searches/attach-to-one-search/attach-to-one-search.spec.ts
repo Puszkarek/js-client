@@ -27,7 +27,7 @@ interface Entry {
 	value: number;
 }
 
-fdescribe('attachToOneSearch()', () => {
+describe('attachToOneSearch()', () => {
 	// Use a randomly generated tag, so that we know exactly what we're going to query
 	const tag = uuidv4();
 
