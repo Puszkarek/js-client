@@ -1,1 +1,1 @@
-export { keepDataRangeTest } from './keep-data-range-test.spec';
+export { makeKeepDataRangeTest } from './keep-data-range-test.spec';

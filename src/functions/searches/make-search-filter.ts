@@ -6,7 +6,7 @@
  * MIT license. See the LICENSE file for details.
  **************************************************************************/
 
-import { map, Observable, startWith, tap } from 'rxjs';
+import { Observable, scan, startWith } from 'rxjs';
 import { SearchFilter } from '~/main';
 import { RequiredSearchFilter } from './subscribe-to-one-search/helpers';
 
@@ -43,13 +43,12 @@ export const makeSearchFilterUpdate = ({
 		return dateRange ?? {};
 	};
 
-	// The previous filter emitted
-	let prev: RequiredSearchFilter | null;
-
-	const searchFilter$ = filter$.pipe(
+	// TODO: remove any
+	const searchFilter$: any = filter$.pipe(
 		startWith<SearchFilter>(initialFilter),
-		map(
-			(curr): RequiredSearchFilter => ({
+		scan((prev, curr) => {
+			console.log({ prev, curr });
+			return {
 				entriesOffset: {
 					index: curr.entriesOffset?.index ?? prev?.entriesOffset?.index ?? initialFilter.entriesOffset.index,
 					count: curr.entriesOffset?.count ?? prev?.entriesOffset?.count ?? initialFilter.entriesOffset.count,
@@ -65,9 +64,8 @@ export const makeSearchFilterUpdate = ({
 				overviewGranularity: curr.overviewGranularity ?? prev?.overviewGranularity ?? initialFilter.overviewGranularity,
 				zoomGranularity: curr.zoomGranularity ?? prev?.zoomGranularity ?? initialFilter.zoomGranularity,
 				elementFilters: initialFilter.elementFilters,
-			}),
-		),
-		tap(filter => (prev = filter)),
+			};
+		}),
 	);
 
 	return searchFilter$;
