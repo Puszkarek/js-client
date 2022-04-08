@@ -18,7 +18,9 @@ import { RawSearchEntries, TextSearchEntries } from '~/models/search/search-entr
 import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from '~/tests';
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
+import { keepDataRangeTest } from '../tests';
 import { makeSubscribeToOneSearch } from './subscribe-to-one-search';
+import { SearchSubscription } from '../../../../dist/browsers/models/search/search-subscription';
 
 interface Entry {
 	timestamp: string;
@@ -1143,42 +1145,17 @@ describe('subscribeToOneSearch()', () => {
 			25000,
 		);
 
-		// TODO: remove fit
-		fit(
-			'Should keep the dateRange when update the filter multiple times',
-			integrationTest(async () => {
+		keepDataRangeTest({
+			start,
+			end,
+			count,
+			createSearch: async (initialFilter: SearchFilter): Promise<SearchSubscription> => {
 				const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
 
 				const query = `tag=*`;
-				const initialFilter: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
 
-				const search = await subscribeToOneSearch(query, { filter: initialFilter });
-
-				////
-				// Update property
-				////
-				const updatedDateRange = { dateRange: { start: start, end: addMinutes(end, 10000) } };
-				const entriesUpdatedFilter = { entriesOffset: initialFilter.entriesOffset };
-
-				search.setFilter(updatedDateRange);
-
-				// Update twice times to clear previous cache
-				search.setFilter(entriesUpdatedFilter);
-				search.setFilter(entriesUpdatedFilter);
-
-				////
-				// Check filter
-				////
-
-				// TODO: may have a way to improve that
-				// Should emit 4 times before complete, 1 for initial stats and 3 for the updates
-				const stats = await lastValueFrom(search.stats$.pipe(take(4)));
-
-				expect(stats.filter)
-					.withContext(`The filter should be equal to the one used, plus the default values for undefined properties`)
-					.toPartiallyEqual(updatedDateRange);
-			}),
-			25000,
-		);
+				return await subscribeToOneSearch(query, { filter: initialFilter });
+			},
+		});
 	});
 });

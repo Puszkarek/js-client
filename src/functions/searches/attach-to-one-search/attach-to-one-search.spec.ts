@@ -21,6 +21,7 @@ import { makeGetAllTags } from '../../tags/get-all-tags';
 import { makeSubscribeToOneSearch } from '../subscribe-to-one-search';
 import { keepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeAttachToOneSearch } from './attach-to-one-search';
+import { SearchSubscription } from '../../../../dist/browsers/models/search/search-subscription';
 
 interface Entry {
 	timestamp: string;
@@ -991,6 +992,18 @@ describe('attachToOneSearch()', () => {
 			25000,
 		);
 
-		keepDataRangeTest({ start, end, count });
+		keepDataRangeTest({
+			start,
+			end,
+			count,
+			createSearch: async (initialFilter: SearchFilter): Promise<SearchSubscription> => {
+				const subscribeToOneSearch = makeSubscribeToOneSearch(TEST_BASE_API_CONTEXT);
+				const attachToOneSearch = makeAttachToOneSearch(TEST_BASE_API_CONTEXT);
+
+				const query = `tag=*`;
+				const searchCreated = await subscribeToOneSearch(query, { filter: initialFilter });
+				return await attachToOneSearch(searchCreated.searchID, { filter: initialFilter });
+			},
+		});
 	});
 });
