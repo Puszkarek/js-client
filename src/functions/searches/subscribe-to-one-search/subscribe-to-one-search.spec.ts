@@ -8,17 +8,17 @@
 
 import * as base64 from 'base-64';
 import { addMinutes, isEqual as datesAreEqual, subMinutes } from 'date-fns';
-import { isUndefined, last as lastElt, range as rangeLeft, sum, zip } from 'lodash';
+import { isUndefined, last as lastElt, matches, range as rangeLeft, sum, zip } from 'lodash';
 import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
-import { map, takeWhile, toArray } from 'rxjs/operators';
+import { map, skipWhile, takeWhile, toArray } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { makeCreateOneMacro, makeDeleteOneMacro } from '~/functions/macros';
-import { SearchFilter, SearchSubscription } from '~/models';
+import { SearchFilter, SearchStats, SearchSubscription } from '~/models';
 import { RawSearchEntries, TextSearchEntries } from '~/models/search/search-entries';
 import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from '~/tests';
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
-import { makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
+import { expectStatsFilter, makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeSubscribeToOneSearch } from './subscribe-to-one-search';
 
 interface Entry {
@@ -712,12 +712,12 @@ describe('subscribeToOneSearch()', () => {
 				const filter: SearchFilter = { entriesOffset: { index: 0, count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter });
 
+				await expectStatsFilter(search.stats$, filter);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -768,12 +768,12 @@ describe('subscribeToOneSearch()', () => {
 				const filter: SearchFilter = { entriesOffset: { index: 0, count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter });
 
+				await expectStatsFilter(search.stats$, filter);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -860,12 +860,12 @@ describe('subscribeToOneSearch()', () => {
 				const filter1: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -932,12 +932,12 @@ describe('subscribeToOneSearch()', () => {
 				const filter1: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -1010,12 +1010,12 @@ describe('subscribeToOneSearch()', () => {
 				};
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -1089,12 +1089,12 @@ describe('subscribeToOneSearch()', () => {
 				};
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')

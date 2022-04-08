@@ -19,7 +19,7 @@ import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from 
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
 import { makeSubscribeToOneSearch } from '../subscribe-to-one-search';
-import { makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
+import { expectStatsFilter, makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeAttachToOneSearch } from './attach-to-one-search';
 
 interface Entry {
@@ -27,7 +27,7 @@ interface Entry {
 	value: number;
 }
 
-describe('attachToOneSearch()', () => {
+fdescribe('attachToOneSearch()', () => {
 	// Use a randomly generated tag, so that we know exactly what we're going to query
 	const tag = uuidv4();
 
@@ -536,12 +536,12 @@ describe('attachToOneSearch()', () => {
 				const searchCreated = await subscribeToOneSearch(query, { filter });
 				const search = await attachToOneSearch(searchCreated.searchID, { filter });
 
+				await expectStatsFilter(search.stats$, filter);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -596,12 +596,12 @@ describe('attachToOneSearch()', () => {
 				const searchCreated = await subscribeToOneSearch(query, { filter });
 				const search = await attachToOneSearch(searchCreated.searchID, { filter });
 
+				await expectStatsFilter(search.stats$, filter);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -697,12 +697,12 @@ describe('attachToOneSearch()', () => {
 				const searchCreated = await subscribeToOneSearch(query, { filter: filter1 });
 				const search = await attachToOneSearch(searchCreated.searchID, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -773,12 +773,12 @@ describe('attachToOneSearch()', () => {
 				const searchCreated = await subscribeToOneSearch(query, { filter: filter1 });
 				const search = await attachToOneSearch(searchCreated.searchID, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -855,12 +855,12 @@ describe('attachToOneSearch()', () => {
 				const searchCreated = await subscribeToOneSearch(query, { filter: filter1 });
 				const search = await attachToOneSearch(searchCreated.searchID, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
@@ -938,12 +938,12 @@ describe('attachToOneSearch()', () => {
 				const searchCreated = await subscribeToOneSearch(query, { filter: filter1 });
 				const search = await attachToOneSearch(searchCreated.searchID, { filter: filter1 });
 
+				await expectStatsFilter(search.stats$, filter1);
+
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
 				]);
-
-				await sleep(100);
 
 				expect(sum(statsOverview.frequencyStats.map(x => x.count)))
 					.withContext('The sum of counts from statsOverview should equal the total count ingested')
