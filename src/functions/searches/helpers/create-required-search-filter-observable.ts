@@ -32,7 +32,7 @@ export type MakeSearchFilterProps = {
  *
  * @returns An observable that emits the updated search
  */
-export const makeSearchFilterUpdate = ({
+export const createRequiredSearchFilterObservable = ({
 	filter$,
 	initialFilter,
 	previewDateRange,

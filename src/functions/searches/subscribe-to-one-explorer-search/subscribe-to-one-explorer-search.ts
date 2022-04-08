@@ -54,7 +54,7 @@ import {
 import { toDataExplorerEntry } from '~/models/search/to-data-explorer-entry';
 import { Percentage, RawJSON, toNumericID } from '~/value-objects';
 import { APIContext, debounceWithBackoffWhile } from '../../utils';
-import { makeSearchFilterUpdate } from '../helpers/make-search-filter';
+import { createRequiredSearchFilterObservable } from '../helpers/create-required-search-filter-observable';
 import { initiateSearch } from '../initiate-search';
 import { makeModifyOneQuery } from '../modify-one-query';
 import { makeSubscribeToOneRawSearch } from '../subscribe-to-one-raw-search';
@@ -242,10 +242,10 @@ export const makeSubscribeToOneExplorerSearch = (context: APIContext) => {
 			_filter$.next(filter ?? initialFilter);
 		};
 
-		const filter$ = makeSearchFilterUpdate({
+		const filter$ = createRequiredSearchFilterObservable({
 			filter$: _filter$.asObservable(),
-			initialFilter: initialFilter,
-			previewDateRange: previewDateRange,
+			initialFilter,
+			previewDateRange,
 			defaultValues: {
 				dateStart: defaultStart,
 				dateEnd: defaultEnd,

@@ -52,7 +52,7 @@ import {
 import { ID, Percentage, toNumericID } from '~/value-objects';
 import { APIContext, debounceWithBackoffWhile } from '../../utils';
 import { attachSearch } from '../attach-search';
-import { makeSearchFilterUpdate } from '../helpers/make-search-filter';
+import { createRequiredSearchFilterObservable } from '../helpers/create-required-search-filter-observable';
 import { makeSubscribeToOneRawSearch } from '../subscribe-to-one-raw-search';
 import {
 	countEntriesFromModules,
@@ -220,10 +220,10 @@ export const makeAttachToOneSearch = (context: APIContext) => {
 			_filter$.next(filter ?? initialFilter);
 		};
 
-		const filter$ = makeSearchFilterUpdate({
+		const filter$ = createRequiredSearchFilterObservable({
 			filter$: _filter$.asObservable(),
-			initialFilter: initialFilter,
-			previewDateRange: previewDateRange,
+			initialFilter,
+			previewDateRange,
 			defaultValues: {
 				dateStart: defaultStart,
 				dateEnd: defaultEnd,
