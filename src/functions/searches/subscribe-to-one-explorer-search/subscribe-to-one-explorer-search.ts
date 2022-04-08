@@ -55,7 +55,7 @@ import { toDataExplorerEntry } from '~/models/search/to-data-explorer-entry';
 import { Percentage, RawJSON, toNumericID } from '~/value-objects';
 import { APIContext, debounceWithBackoffWhile } from '../../utils';
 import { initiateSearch } from '../initiate-search';
-import { makeSearchFilterUpdate } from '../make-search-filter';
+import { makeSearchFilterUpdate } from '../helpers/make-search-filter';
 import { makeModifyOneQuery } from '../modify-one-query';
 import { makeSubscribeToOneRawSearch } from '../subscribe-to-one-raw-search';
 import {

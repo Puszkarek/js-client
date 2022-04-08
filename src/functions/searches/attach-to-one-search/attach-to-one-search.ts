@@ -52,7 +52,7 @@ import {
 import { ID, Percentage, toNumericID } from '~/value-objects';
 import { APIContext, debounceWithBackoffWhile } from '../../utils';
 import { attachSearch } from '../attach-search';
-import { makeSearchFilterUpdate } from '../make-search-filter';
+import { makeSearchFilterUpdate } from '../helpers/make-search-filter';
 import { makeSubscribeToOneRawSearch } from '../subscribe-to-one-raw-search';
 import {
 	countEntriesFromModules,
