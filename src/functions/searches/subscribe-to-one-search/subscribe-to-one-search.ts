@@ -7,7 +7,7 @@
  **************************************************************************/
 
 import { isAfter, subHours } from 'date-fns';
-import { isBoolean, isNil, isNull, isUndefined, uniqueId } from 'lodash';
+import { isBoolean, isEqual, isNil, isNull, isUndefined, uniqueId } from 'lodash';
 import {
 	BehaviorSubject,
 	combineLatest,
@@ -456,7 +456,10 @@ export const makeSubscribeToOneSearch = (context: APIContext) => {
 			takeUntil(close$),
 		);
 
-		const stats$ = combineLatest(rawSearchStats$, rawSearchDetails$).pipe(
+		const stats$ = combineLatest([
+			rawSearchStats$.pipe(distinctUntilChanged<RawResponseForSearchStatsMessageReceived>(isEqual)),
+			rawSearchDetails$.pipe(distinctUntilChanged<RawResponseForSearchDetailsMessageReceived>(isEqual)),
+		]).pipe(
 			map(
 				([rawStats, rawDetails]): SearchStats => {
 					const filterID =
@@ -534,7 +537,9 @@ export const makeSubscribeToOneSearch = (context: APIContext) => {
 				},
 			),
 
-			shareReplay({ bufferSize: 1, refCount: true }),
+			distinctUntilChanged<SearchStats>(isEqual),
+
+			shareReplay({ bufferSize: 1, refCount: false }),
 
 			// Complete when/if the user calls .close()
 			takeUntil(close$),
