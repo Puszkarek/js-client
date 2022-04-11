@@ -740,6 +740,8 @@ describe('subscribeToOneSearch()', () => {
 				const filter2: SearchFilter = { dateRange: { start, end: subMinutes(end, delta) } };
 				search.setFilter(filter2);
 
+				await expectStatsFilter(search.stats$, filter2);
+
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -793,6 +795,8 @@ describe('subscribeToOneSearch()', () => {
 				// Narrow the search window by moving the end date sooner by delta minutes
 				const filter2: SearchFilter = { dateRange: { start, end: subMinutes(end, delta) } };
 				search.setFilter(filter2);
+
+				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -896,6 +900,8 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
+
+				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -1129,6 +1135,8 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
+
+				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
