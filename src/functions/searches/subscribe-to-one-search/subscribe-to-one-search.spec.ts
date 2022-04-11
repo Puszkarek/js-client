@@ -8,17 +8,17 @@
 
 import * as base64 from 'base-64';
 import { addMinutes, isEqual as datesAreEqual, subMinutes } from 'date-fns';
-import { isUndefined, last as lastElt, matches, range as rangeLeft, sum, zip } from 'lodash';
+import { isUndefined, last as lastElt, range as rangeLeft, sum, zip } from 'lodash';
 import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
-import { map, skipWhile, takeWhile, toArray } from 'rxjs/operators';
+import { map, takeWhile, toArray } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { makeCreateOneMacro, makeDeleteOneMacro } from '~/functions/macros';
-import { SearchFilter, SearchStats, SearchSubscription } from '~/models';
+import { SearchFilter, SearchSubscription } from '~/models';
 import { RawSearchEntries, TextSearchEntries } from '~/models/search/search-entries';
 import { integrationTest, myCustomMatchers, sleep, TEST_BASE_API_CONTEXT } from '~/tests';
 import { makeIngestMultiLineEntry } from '../../ingestors/ingest-multi-line-entry';
 import { makeGetAllTags } from '../../tags/get-all-tags';
-import { expectStatsFilter, makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
+import { makeKeepDataRangeTest } from '../tests/keep-data-range-test.spec';
 import { makeSubscribeToOneSearch } from './subscribe-to-one-search';
 
 interface Entry {
@@ -712,8 +712,6 @@ describe('subscribeToOneSearch()', () => {
 				const filter: SearchFilter = { entriesOffset: { index: 0, count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter });
 
-				await expectStatsFilter(search.stats$, filter);
-
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -739,8 +737,6 @@ describe('subscribeToOneSearch()', () => {
 				// Narrow the search window by moving the end date sooner by delta minutes
 				const filter2: SearchFilter = { dateRange: { start, end: subMinutes(end, delta) } };
 				search.setFilter(filter2);
-
-				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -770,8 +766,6 @@ describe('subscribeToOneSearch()', () => {
 				const filter: SearchFilter = { entriesOffset: { index: 0, count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter });
 
-				await expectStatsFilter(search.stats$, filter);
-
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -795,8 +789,6 @@ describe('subscribeToOneSearch()', () => {
 				// Narrow the search window by moving the end date sooner by delta minutes
 				const filter2: SearchFilter = { dateRange: { start, end: subMinutes(end, delta) } };
 				search.setFilter(filter2);
-
-				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -864,8 +856,6 @@ describe('subscribeToOneSearch()', () => {
 				const filter1: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
-				await expectStatsFilter(search.stats$, filter1);
-
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -900,8 +890,6 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
-
-				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -938,8 +926,6 @@ describe('subscribeToOneSearch()', () => {
 				const filter1: SearchFilter = { entriesOffset: { index: 0, count: count }, dateRange: { start, end } };
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
-				await expectStatsFilter(search.stats$, filter1);
-
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -972,8 +958,6 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
-
-				await expectStatsFilter(search.stats$, filter1);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -1018,8 +1002,6 @@ describe('subscribeToOneSearch()', () => {
 				};
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
-				await expectStatsFilter(search.stats$, filter1);
-
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -1056,8 +1038,6 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
-
-				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
@@ -1099,8 +1079,6 @@ describe('subscribeToOneSearch()', () => {
 				};
 				const search = await subscribeToOneSearch(query, { filter: filter1 });
 
-				await expectStatsFilter(search.stats$, filter1);
-
 				let [statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
 					firstValueFrom(search.statsZoom$),
@@ -1135,8 +1113,6 @@ describe('subscribeToOneSearch()', () => {
 					zoomGranularity: newZoomGranularity,
 				};
 				search.setFilter(filter2);
-
-				await expectStatsFilter(search.stats$, filter2);
 
 				[statsOverview, statsZoom] = await Promise.all([
 					firstValueFrom(search.statsOverview$),
