@@ -30,7 +30,7 @@ export const toActionable = (raw: RawActionable): Actionable => ({
 
 	lastUpdateDate: new Date(raw.Updated),
 
-	triggers: raw.Contents.triggers.map(toActionableTrigger),
+	triggers: raw.Contents.triggers?.map(toActionableTrigger) ?? [],
 	actions: raw.Contents.actions?.map(toActionableAction) ?? [],
 });
 
